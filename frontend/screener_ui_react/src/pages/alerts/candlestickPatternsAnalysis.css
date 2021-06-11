@@ -1,0 +1,43 @@
+
+
+
+
+
+.candlestick-item-div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    margin-left: 5px;
+    margin-right: 2px;
+}
+
+
+.patterns-bulls-div {
+    flex:1;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: 600;
+    color: #4c8d61;
+}
+
+.patterns-bulls-div span{
+    display: flex;
+    align-items: center;
+}
+
+
+
+.patterns-bears-div {
+    flex:1;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: 600;
+    color: #ac4f4f;
+}

@@ -1,0 +1,33 @@
+
+
+.shares-screener-app-div {
+  display: flex;
+  flex-direction: row;
+  background-color: #333333;
+  color:#e4e4e4;
+  width: 100vw;
+  height: 100vh;
+  min-width: 1150px;
+  min-height: 720px;
+
+}
+
+
+
+
+.pages-container-div {
+  display: flex;
+  flex: 6;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.pages-div {
+  display: flex;
+  height: 95%;
+  width: 98%;
+  border-radius: 20px;
+  overflow: hidden;
+}
+

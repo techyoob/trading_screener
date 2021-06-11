@@ -1,0 +1,22 @@
+
+
+
+
+
+
+.mini-line-chart {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    background-color: inherit;
+}
+
+
+.candlestick-chart-div{
+    height: 80%;
+    width: 90%;
+    border: 1px solid #dadada;
+    margin-top: 15px;
+    margin-left: 15px;
+    background-color: white;
+}

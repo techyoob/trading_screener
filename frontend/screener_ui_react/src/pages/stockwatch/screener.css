@@ -1,0 +1,402 @@
+
+
+
+
+
+
+.screener-page-div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background-color:#1e1e1e;
+  }
+
+
+
+
+.screener-header-div {
+    display: flex;
+    justify-content: center;
+    align-items:flex-end;
+    flex: 2;
+ }
+
+.pre-during-after-market-div{
+    display: flex;
+    flex-direction: row;
+    width: 93%;
+    height: 75%;
+    background-color: #333333;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.slide-button-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    font-size: 30px;
+    background-color: #525252;
+}
+
+.slide-button-div:hover {
+    opacity: 0.6;
+}
+.slide-button-div:active {
+    background-color: #ac8168;
+  }
+
+.list-div {
+    display: flex;
+    flex-direction: column;
+    flex: 30;
+    overflow: hidden;
+}
+
+.list-title-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 2;
+}
+
+.list-items-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    flex:5;
+    overflow: hidden;
+}
+
+
+
+.trend-item-div {
+    display: flex;
+    flex-direction: row;
+    width: 13%;
+    height: 70%;
+    border-radius: 15px;
+    background-color: #c5c5c5;
+    overflow: hidden;
+}
+
+
+.ticker-current-stats-div {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    background-color: #333333;
+}
+
+
+.stats-1-div {
+    font-size: 12px;
+    font-weight: bold;
+    align-self: center;
+}
+
+.stats-2-div {
+    font-size: 12px;
+    align-self: center;
+}
+
+.stats-3-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    font-size: 12px;
+    padding-left: 5px;
+}
+
+
+
+.current-chart-div {
+    display: flex;
+    flex: 1;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* .current-chart-div img{
+    width: 80%;
+    height: 80%;
+    border: 1px solid #d4d4d4;
+    border-radius: 5px;
+} */
+
+/* .mini-chart-div {
+    width: 80%;
+    height: 80%;
+    border: 1px solid #6b0fff;
+    background-color: #ffffff;
+} */
+
+
+
+
+
+
+
+.screener-main-detail-div {
+    display: flex;
+    flex-direction: row;
+    flex: 8;
+
+}
+
+
+
+.ticker-chart-details-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 5;
+
+}
+
+.chart-div {
+    height: 85%;
+    width: 90%;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #333333;
+    border-radius: 15px;
+}
+
+.chart-header-div {
+    display: flex;
+    flex-direction: row;
+    height: 5%;
+    width: 100%;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.candle-size-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    height: 100%;
+    width: 6%;
+    margin-left:2px;
+    border: hidden;
+    outline: hidden;
+    background-color: inherit;
+    color: inherit;
+}
+
+.selected-candle-size-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    height: 100%;
+    width: 6%;
+    margin-left:2px;
+    border: hidden;
+    outline: hidden;
+    background-color: #ffffff;
+    color: inherit;
+    border: 1px solid #dadada;
+    border-radius: 15px;
+}
+
+.chart-body-div {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.chart-body-div img{
+    height: 80%;
+    width: 90%;
+    border: 1px solid #dadada;
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
+
+
+
+
+
+.ticker-info-div {
+    display: flex;
+    justify-content:left;
+    align-items: center;
+    flex: 2;
+}
+
+.ticker-info-details-div {
+    display: flex;
+    flex-direction: column;
+    height: 85%;
+    width: 89%;
+    overflow: hidden;
+    background-color: #333333;
+    border-radius: 15px;
+}
+
+
+.ticker-info-section-I {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    width: 100%;
+    font-size: 25px;
+}
+
+.company-symbol {
+    flex: 1;
+    margin-left: 15px;
+    justify-content:flex-end;
+    align-self: center;
+    margin-top: 10px;
+}
+
+.company-name {
+    flex: 1;
+    margin-left: 15px;
+    align-self: center;
+}
+
+
+
+
+
+
+.ticker-info-section-II {
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+    width: 85%;
+    border-bottom: 1px solid #dadada;
+    align-self: center;
+    text-transform: capitalize;
+}
+
+.item-section-I {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+    justify-content: center;
+}
+
+.item-label {
+    font-weight: normal;
+}
+
+.item-value {
+    font-weight: bold;
+}
+
+
+.company-symbol {
+    flex: 1;
+    margin-left: 15px;
+    justify-content:flex-end;
+    align-self: center;
+    margin-top: 10px;
+}
+
+.company-name {
+    flex: 1;
+    margin-left: 15px;
+    align-self: center;
+}
+
+
+
+
+
+
+      
+.screener-strategies-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 3;
+
+}
+
+.strategies-div {
+    display: flex;
+    align-items: center;
+    height: 90%;
+    width: 93%;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #333333;
+    border-radius: 15px;
+}
+
+.strategies-header-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 10%;
+}
+
+.strategies-header-title {
+    font-weight: bold;
+    margin-top: 40px;
+    font-size: 14px;
+}
+
+.strategies-header-symbol {
+    margin-top: 20%;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+
+.patterns-rating-div {
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    height: 80%;
+    margin-left: 15px;
+    border-radius: 15px;
+    padding-top: 5px;
+    background-color: #47536d;
+}
+
+
+
+.patterns-rating-title {
+    display: flex;
+    font-size: 16px;
+    font-weight: bold;
+    align-self: center;
+}
+
+.patterns-rating-bulls {
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: 600;
+    color: #4c8d61;
+    
+}
+
+.patterns-rating-bears {
+    margin-left: 5px;
+    margin-right: 5px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: 600;
+    color: #ac4f4f;
+}

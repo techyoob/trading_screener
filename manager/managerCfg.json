@@ -1,0 +1,52 @@
+{
+    "tasks":[
+        {
+            "name":"Back End",
+            "frequency":"ONCE",
+            "date":"",
+            "time":"now",
+            "run":"D:\\screener_project\\backend\\big_bang_screener_api_flask\\run.bat",
+            "script":"flask api"
+        },
+        {
+            "name":"Front End",
+            "frequency":"ONCE",
+            "date":"",
+            "time":"now",
+            "run":"D:\\screener_project\\frontend\\big_bang_screener_ui_react\\run.bat",
+            "script":"react app"
+        },
+        {
+            "name":"Social Trend Bot",
+            "frequency":"DAILY",
+            "date":"",
+            "time":"06:00",
+            "run":"D:\\screener_project\\classic_bots\\social_trend_processor\\run.bat",
+            "script":"social_trend_processor.py"
+        },
+        {
+            "name":"History LSTM Bot",
+            "frequency":"DAILY",
+            "date":"",
+            "time":"18:00",
+            "run":"D:\\screener_project\\ai_bots\\lstm_forecasting\\run.bat",
+            "script":"lstm_predictor.py"
+        },
+        {
+            "name":"Candlestick Patterns Analysis",
+            "frequency":"DAILY",
+            "date":"",
+            "time":"18:00",
+            "run":"D:\\screener_project\\classic_bots\\candlestick_patterns_classifier\\run.bat",
+            "script":"candlestick_patterns_classifier.py"
+        },
+        {
+            "name":"Alerts Analysis",
+            "frequency":"DAILY",
+            "date":"",
+            "time":"18:00",
+            "run":"D:\\screener_project\\classic_bots\\alerts_processor\\run.bat",
+            "script":"alerts_processor.py"
+        }
+    ]
+}

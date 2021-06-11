@@ -1,0 +1,21 @@
+
+
+
+
+
+
+
+.test-page-div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background-color:#fd0000;
+  }
+
+
+.test-view {
+  height: 50%;
+  width: 50%;
+  background-color: yellow;
+}

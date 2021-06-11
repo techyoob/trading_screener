@@ -1,0 +1,1 @@
+'The truth value of a Series is ambiguous. Use a.empty or a.all().'
