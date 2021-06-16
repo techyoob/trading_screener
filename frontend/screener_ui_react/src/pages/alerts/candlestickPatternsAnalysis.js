@@ -28,11 +28,11 @@ const CandlestickPatternsAnalysis = (props) => {
         ref={candlestickItemRef}>
             <div className="patterns-bulls-div">
                 <span>{`Bulls`}</span>
-                <span>{`${props.item.strategies[props.strategy].bulls}`}</span>
+                <span>{`${props.item?.strategies[props.strategy].bulls}`}</span>
             </div>
             <div className="patterns-bears-div">
                 <span>{`Bears`}</span>
-                <span>{`${props.item.strategies[props.strategy].bears}`}</span>
+                <span>{`${props.item?.strategies[props.strategy].bears}`}</span>
             </div>
 
       </div>

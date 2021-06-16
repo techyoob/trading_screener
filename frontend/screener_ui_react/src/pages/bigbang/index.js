@@ -30,13 +30,13 @@ const BigBangPage = (props) => {
     const [tableData, setTableData] = useState([]);    
     const [tableHeader, setTablHeader] = useState(["Ticker","current", "forecasting"]);
     const [isLoading, setIsLoading] = useState(false)
-  
-  
-          
+
+
+
     useEffect(() => {
-                  
+
         let isMounted = true;
-        
+
         requestData(isMounted)
         return function cleanup() {
             isMounted=false;
@@ -139,8 +139,7 @@ const BigBangPage = (props) => {
                             className="refresh-icon-button"/>
                     </div>
                 </div>
-            </div>
-      
+            </div> 
       </div>
     );
   }

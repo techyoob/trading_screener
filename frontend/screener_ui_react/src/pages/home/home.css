@@ -3,112 +3,112 @@
 
 
 .home-page-div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    height: 100%;
-    width: 100%;
-    background-color: #1e1e1e;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100%;
+  width: 100%;
+  background-color: #1e1e1e;
+}
 
 
-  /* *************************************
-  ****************************************
+/* *************************************
+****************************************
 
-              Section I
-  
-  ***************************************
-  ****************************************/
-  
+            Section I
+
+***************************************
+****************************************/
+
 .section-I-div {
-    display: flex;
-    width: 100%;
-    height: 15%;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .main-info-div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 85%;
-    width: 95%;
-    background-color: #333333;
-    border-radius: 15px;
-  }
-  
-  .main-info-div p{
-    font-size: 1.1rem;
-    font-weight: bold;
-    padding-left: 15px;
-  }
+  display: flex;
+  width: 100%;
+  height: 15%;
+  align-items: center;
+  justify-content: center;
+}
 
-.header-clock-div {  
+.main-info-div {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 90%;
-  width: 30%;
+  height: 85%;
+  width: 95%;
+  background-color: #333333;
+  border-radius: 15px;
+}
+
+.main-info-div p{
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding-left: 15px;
+}
+
+.header-clock-div {  
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+height: 90%;
+width: 30%;
 }
 
 .date-div {
-  justify-self: center;
-  font-weight: bold;
+justify-self: center;
+font-weight: bold;
 }
 
 .time-div {
-  justify-self: center;
+justify-self: center;
 
 }
-  
-  /* *************************************
-  ****************************************
 
-              Section II
+/* *************************************
+****************************************
+
+            Section II
+
+***************************************
+****************************************/
   
-  ***************************************
-  ****************************************/
-    
 .section-II-div {
-    display: flex;
-    width: 100%;
-    height: 85%;
-    justify-content: space-evenly;
-    align-items: center;
-    overflow: hidden;
-  }
-  
-  
-.strategy-screened-list-div {
   display: flex;
-  flex-direction: column;
-  height: 94%;
-  width: 30%;
-  background-color: #333333;
-  border-radius: 15px;
+  width: 100%;
+  height: 85%;
+  justify-content: space-evenly;
+  align-items: center;
   overflow: hidden;
-  text-transform: capitalize;
+}
+
+
+.strategy-screened-list-div {
+display: flex;
+flex-direction: column;
+height: 94%;
+width: 30%;
+background-color: #333333;
+border-radius: 15px;
+overflow: hidden;
+text-transform: capitalize;
 }
 
 .strategy-header-div {
-  display: flex;
-  height: 6%;
-  width: 100%;
-  align-items: center;
-  justify-content: flex-start;
-  padding-left: 15px;
-  font-weight: bold;
+display: flex;
+height: 6%;
+width: 100%;
+align-items: center;
+justify-content: flex-start;
+padding-left: 15px;
+font-weight: bold;
 }
 
 .strategy-body-div {
-  display: flex;
-  flex-direction: column;
-  height: 94%;
-  align-items: center;
+display: flex;
+flex-direction: column;
+height: 94%;
+align-items: center;
 }
 
 
@@ -117,327 +117,173 @@
 
 
 
-  /* *************************************
-  ****************************************
+/* *************************************
+****************************************
 
-              Patterns Analysis List
-  
-  ***************************************
-  ****************************************/
+            Patterns Analysis List
+
+***************************************
+****************************************/
 
 .most-bullish-title-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
+display: flex;
+justify-content: center;
+align-items: center;
+flex: 1;
 }
 
 .most-bearish-title-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
+display: flex;
+justify-content: center;
+align-items: center;
+flex: 1;
 }
 
 .pair-item-div {
-  display: flex;
-  flex-direction: row;
-  height: 15%;
-  width: 100%;
-  font-weight: bold;
-  justify-content: space-evenly;
-  align-items: center;
-  margin-bottom: 2%;
+display: flex;
+flex-direction: row;
+height: 15%;
+width: 100%;
+font-weight: bold;
+justify-content: space-evenly;
+align-items: center;
+margin-bottom: 2%;
 }
 
 .patterns-item-div {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 47%;
-  background-color: #5d5763;
+display: flex;
+flex-direction: column;
+height: 100%;
+width: 47%;
+background-color: #5d5763;
 }
 
 .patterns-item-div:hover {
-  background-color: #abddc4;
+background-color: #abddc4;
 }
 
 .patterns-item-div:active {
-  background-color: #868686;
+background-color: #868686;
 }
 
 
 
 .company-name-item-span {
-    display: flex;
-    flex: 1;
-    margin-left: 5px;
-    align-items: center;
-}
-
-.company-symbol-item-span {
   display: flex;
   flex: 1;
   margin-left: 5px;
-  align-items: flex-end;
-  font-size: 18px;
-  font-weight: bold;
-  color: #ffffff;
+  align-items: center;
+}
+
+.company-symbol-item-span {
+display: flex;
+flex: 1;
+margin-left: 5px;
+align-items: flex-end;
+font-size: 18px;
+font-weight: bold;
+color: #ffffff;
 
 }
 
 .patterns-score-item-div {
-  display: flex;
-  flex: 1;
-  margin-left: 5px;
-  justify-content: space-between;
-  align-items: center;
-  margin-left: 15px;
-  margin-right: 15px;
+display: flex;
+flex: 1;
+margin-left: 5px;
+justify-content: space-between;
+align-items: center;
+margin-left: 15px;
+margin-right: 15px;
 }
 
 
 
 .patterns-analysis-list {
-    display: flex;
-    flex-direction: column;
-    height: 94%;
-    width: 100%;
-    overflow: hidden;  
-  }
+  display: flex;
+  flex-direction: column;
+  height: 94%;
+  width: 100%;
+  overflow: hidden;  
+}
 
 .patterns-analysis-section-div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 50%;
-    width: 100%;
-    overflow: hidden;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 50%;
+  width: 100%;
+  overflow: hidden;
+}
+
 .patterns-analysis-section-div span{
-    display: flex;
-    align-self: flex-start;
-  }
-  
+  display: flex;
+  align-self: flex-start;
+}
+
 
 .patterns-analysis-list-item {
-    display: flex;
-    flex-direction: row;
-    background-color: #e0e0e0;
-    height: 19%;
-    margin-bottom: 1%;
-    width: 95%;
-    border-radius: 10px;
-  }
-  
+  display: flex;
+  flex-direction: row;
+  background-color: #e0e0e0;
+  height: 19%;
+  margin-bottom: 1%;
+  width: 95%;
+  border-radius: 10px;
+}
+
 .patterns-analysis-list-item:hover {
-    background-color: violet;
-  }
-  
+  background-color: violet;
+}
+
 .patterns-analysis-list-item:active {
-    background-color: tomato;
-  }
-  
+  background-color: tomato;
+}
+
 .company-info-div {
-    display: flex;
-    flex: 4;
-    flex-direction: column;
-    padding-left: 10px;
-    justify-content: flex-end;
-    margin: 0;
-  }
+  display: flex;
+  flex: 4;
+  flex-direction: column;
+  padding-left: 10px;
+  justify-content: flex-end;
+  margin: 0;
+}
 
 .company-symbol-span {
-    flex:1;
-    font-size: 12px;
-    font-weight: bold;
-    margin: 0;
-  }
-  
-
-  .company-name-span {
-    display: flex;
-    flex:1;
-    font-size: 10px;
-    margin: 0;
-  }
-  
+  flex:1;
+  font-size: 12px;
+  font-weight: bold;
+  margin: 0;
+}
 
 
-  
-   .rate-icon-div {
-    flex:1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .rate-div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 1;
-    font-size: 14px;
-  }
+.company-name-span {
+  display: flex;
+  flex:1;
+  font-size: 10px;
+  margin: 0;
+}
+
+
+
+
+ .rate-icon-div {
+  flex:1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rate-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  font-size: 14px;
+}
 
 
 
 .patterns-analysis-footer {
-    display: flex;
-    height: 6%;
-    width: 100%;
-    margin-left: 5%;
-    font-size: 14px;
-    align-items: center;
-    justify-content: space-around;
-  }
-
-.refresh-icon-button {
-  display: flex;
-  height: 100%;
-  margin-right: 20px;
-}
-
-.refresh-icon-button:hover {
-  color: #008080;
-}
-
-.refresh-icon-button:active {
-  color: #84899e;
-}
-
-
-
-
-
-  /* *************************************
-  ****************************************
-
-               List
-  
-  ***************************************
-  ****************************************/
-
-.ticker-items-header-div {
-  display: flex;
-  flex-direction: row;
-  height: 7%;
-  width: 96%;
-  font-size: 12px;
-  font-weight:600;
-}
-
-
-
-.symbol-item-title-div {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  flex-wrap: wrap;
-  padding-left: 5px;
-
-}
-
-.score-item-title-div {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-  
-.direction-item-title-div {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.activity-day-week-item-title-div {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
-
-
-
-.ticker-items-list-div {
-  height: 87%;
-  width: 96%;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE 10+ */
-  overflow-y:scroll;
-  overflow-x:hidden;
-  font-size: 12px;
-  font-weight:600;
-}
-
-.ticker-items-list-div::-webkit-scrollbar { 
-  display: none;  /* Chrome Safari */
- } 
- 
-
-.ticker-generic-item-div {
-  display: flex;
-  flex-direction: row;
-  height: 15%;
-  width: 100%;
-  background-color: #5d5763;
-  margin-bottom: 2%;
-  font-weight: bold;
-  justify-content: space-evenly;
-  align-items: center;
-  border-radius: 5px;
-}
-
-.ticker-generic-item-div:hover {
-  background-color: #b47f7f;
-}
-
-.ticker-generic-item-div:active {
-  background-color: #868686;
-}
-
-
-
-.symbol-item-div {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  flex-wrap: wrap;
-  font-weight: 800;
-  font-size: 15px;
-  padding-left: 5px;
-  
-}
-
-.score-item-div {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-  
-.direction-item-div {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.activity-day-week-item-div {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
-
-
-
-.ticker-items-footer-div {   
   display: flex;
   height: 6%;
   width: 100%;
@@ -445,53 +291,170 @@
   font-size: 14px;
   align-items: center;
   justify-content: space-around;
+}
+
+.refresh-icon-button {
+display: flex;
+height: 100%;
+margin-right: 20px;
+}
+
+.refresh-icon-button:hover {
+color: #008080;
+}
+
+.refresh-icon-button:active {
+color: #84899e;
+}
+
+
+
+
+
+/* *************************************
+****************************************
+
+             List
+
+***************************************
+****************************************/
+
+.ticker-items-header-div {
+display: flex;
+flex-direction: row;
+height: 7%;
+width: 96%;
+font-size: 12px;
+font-weight:600;
+}
+
+
+
+.symbol-item-title-div {
+display: flex;
+align-items: center;
+flex: 1;
+flex-wrap: wrap;
+padding-left: 5px;
 
 }
 
-  /* *************************************
-  ****************************************
-
-             other for cleaning
-  
-  ***************************************
-  ****************************************/
-
-.patterns-analysis-div {
-    display: flex;
-    flex-direction: column;
-    height: 80%;
-    width: 25%;
-    background-color: #fafafa;
-    border-radius: 15px;
-    box-shadow: inset 0px 0px 15px 4px #ffffff, 
-      0px 0px 15px 4px #cfcfcf;
-    overflow: hidden;
+.score-item-title-div {
+flex: 1;
+display: flex;
+align-items: center;
 }
-  
-  
-  .bulls-div {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-  
 
-  .ticker-item {
-    display: flex;
-    flex-direction: row;
-    flex: 1;
-    margin-bottom: 1px;
-    background-color: rgb(211, 211, 211);
-  }
-  
-  
-  .bears-div {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-  }
-  
-  
+.direction-item-title-div {
+flex: 1;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.activity-day-week-item-title-div {
+flex: 1;
+display: flex;
+justify-content: center;
+align-items: center;
+overflow: hidden;
+}
+
+
+
+
+.ticker-items-list-div {
+height: 87%;
+width: 96%;
+scrollbar-width: none; /* Firefox */
+-ms-overflow-style: none;  /* IE 10+ */
+overflow-y:scroll;
+overflow-x:hidden;
+font-size: 12px;
+font-weight:600;
+}
+
+.ticker-items-list-div::-webkit-scrollbar { 
+display: none;  /* Chrome Safari */
+} 
+
+
+.ticker-generic-item-div {
+display: flex;
+flex-direction: row;
+height: 15%;
+width: 100%;
+background-color: #5d5763;
+margin-bottom: 2%;
+font-weight: bold;
+justify-content: space-evenly;
+align-items: center;
+border-radius: 5px;
+}
+
+.ticker-generic-item-div:hover {
+background-color: #b47f7f;
+}
+
+.ticker-generic-item-div:active {
+background-color: #868686;
+}
+
+
+
+.symbol-item-div {
+display: flex;
+align-items: center;
+flex: 1;
+flex-wrap: wrap;
+font-weight: 800;
+font-size: 15px;
+padding-left: 5px;
+
+}
+
+.score-item-div {
+flex: 1;
+display: flex;
+align-items: center;
+}
+
+.direction-item-div {
+flex: 1;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.activity-day-week-item-div {
+flex: 1;
+display: flex;
+justify-content: center;
+align-items: center;
+overflow: hidden;
+}
+
+
+
+
+.ticker-items-footer-div {   
+display: flex;
+height: 6%;
+width: 100%;
+margin-left: 5%;
+font-size: 14px;
+align-items: center;
+justify-content: space-around;
+
+}
+
+/* *************************************
+****************************************
+
+           other for cleaning
+
+***************************************
+****************************************/
 
 .patterns-analysis-div {
   display: flex;
@@ -504,29 +467,66 @@
     0px 0px 15px 4px #cfcfcf;
   overflow: hidden;
 }
-  
-.most-gainers-div {
+
+
+.bulls-div {
   display: flex;
   flex-direction: column;
-  height: 80%;
-  width: 25%;
-  background-color: #fafafa;
-  border-radius: 15px;
-  box-shadow: inset 0px 0px 15px 4px #ffffff, 
+  flex: 1;
+}
+
+
+.ticker-item {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  margin-bottom: 1px;
+  background-color: rgb(211, 211, 211);
+}
+
+
+.bears-div {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+
+
+.patterns-analysis-div {
+display: flex;
+flex-direction: column;
+height: 80%;
+width: 25%;
+background-color: #fafafa;
+border-radius: 15px;
+box-shadow: inset 0px 0px 15px 4px #ffffff, 
   0px 0px 15px 4px #cfcfcf;
-  overflow: hidden;
+overflow: hidden;
+}
+
+.most-gainers-div {
+display: flex;
+flex-direction: column;
+height: 80%;
+width: 25%;
+background-color: #fafafa;
+border-radius: 15px;
+box-shadow: inset 0px 0px 15px 4px #ffffff, 
+0px 0px 15px 4px #cfcfcf;
+overflow: hidden;
 }
 
 .most-losers-div {
-  display: flex;
-  flex-direction: column;
-  height: 80%;
-  width: 25%;
-  background-color: #fafafa;
-  border-radius: 15px;
-  box-shadow: inset 0px 0px 15px 4px #ffffff, 
-  0px 0px 15px 4px #cfcfcf;
-  overflow: hidden;
+display: flex;
+flex-direction: column;
+height: 80%;
+width: 25%;
+background-color: #fafafa;
+border-radius: 15px;
+box-shadow: inset 0px 0px 15px 4px #ffffff, 
+0px 0px 15px 4px #cfcfcf;
+overflow: hidden;
 }
 
 
