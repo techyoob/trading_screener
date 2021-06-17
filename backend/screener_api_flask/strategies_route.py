@@ -2,7 +2,6 @@
 
 
 import talib
-import yfinance as yf
 import pandas as pd
 from pymongo import MongoClient
 from io import StringIO

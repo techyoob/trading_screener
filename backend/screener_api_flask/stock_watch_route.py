@@ -17,7 +17,7 @@ load_dotenv()
 today = date.today()
 
 
-class AlertRequest:
+class StockRequest:
 
 
     response_404 = {
@@ -53,29 +53,25 @@ class AlertRequest:
 
 
     def getRequest(self):
-        alert=self.params.get('name')
+        query=self.params.get('query')
 
 
-        if(alert is None or len(alert) < 1):
+        if(query is None or len(query) < 1):
             return self.response_404
 
-        if(alert == "new high"):
-            return self.__get_new_high()
+        if(query == "history"):
+            return self.__get_stock_history()
         
-        if(alert == "new low"):
-            return self.__get_new_low()
+        if(query == "alerts"):
+            return self.__get_stock_alerts()
 
-        if(alert == "new high ask"):
-            return self.__get_new_high_ask()
+        if(query == "profile"):
+            return self.__get_stock_profile()
 
-        if(alert == "new low ask"):
-            return self.__get_new_low_ask()
+        if(query == "quote"):
+            return self.__get_stock_quote()
 
-        if(alert == "new high bid"):
-            return self.__get_new_high_bid()
 
-        if(alert == "new low bid"):
-            return self.__get_new_low_bid()
 
         return self.response_404
 
@@ -84,21 +80,17 @@ class AlertRequest:
 
 
 
-    def __get_new_high(self):
+    def __get_stock_history(self):
         try:
             filter=self.params.get('filter')
 
-            if(filter == "5days"):
+            if(filter == "30days"):
 
                 alertsAnalysisColl = os.getenv("ALERTS_ANALYSIS_COLLECTION")
 
                 startDate = date.today() - timedelta(5)
                 startDate = startDate.strftime('%Y-%m-%d')
 
-                # newHighListCursor = self.db[alertsAnalysisColl].find( {'new_high.last_updated':{"$gte": startDate}} )
-
-                # TODO:
-                # Uncomment below for real results
 
                 newHighListCursor = self.db[alertsAnalysisColl].find( {'new_high.price_date':{ "$gte": startDate }}, {"_id":0, "new_high":1, "name":1, "ticker":1} )
 
@@ -137,9 +129,13 @@ class AlertRequest:
             return self.response_404
 
 
-    def __get_new_low(self):
+    def __get_stock_alerts(self):
         try:
+
             filter=self.params.get('filter')
+            ticker = self.params.get('ticker')
+
+
             if(filter == "5days"):
 
                 alertsAnalysisColl = os.getenv("ALERTS_ANALYSIS_COLLECTION")
@@ -147,33 +143,55 @@ class AlertRequest:
                 startDate = date.today() - timedelta(5)
                 startDate = startDate.strftime('%Y-%m-%d')
 
-                # newHighListCursor = self.db[alertsAnalysisColl].find( {'new_high.last_updated':{"$gte": startDate}} )
-                newLowListCursor = self.db[alertsAnalysisColl].find( {'new_low.price_date':{ "$gte": startDate }}, {"_id":0, "new_low":1, "name":1, "ticker":1} )
+                stockAlertsCursor = self.db[alertsAnalysisColl].find_one( {'ticker':ticker}, {"_id":0, "name":0, "ticker":0} )
              
-                newLowListStr = dumps(list(newLowListCursor))
-                new_low_list = json.loads(newLowListStr)
+                alertsListStr = dumps(list(stockAlertsCursor))
+                alerts_list = json.loads(alertsListStr)
+                alerts_result = []
+                for alertStr in alerts_list:
+                    #TODO:
+                    # return only 5days recent objects
+
+                    alertObj = {
+                        "name": alertStr.replace("_", " "),
+                        "item":stockAlertsCursor[alertStr]
+                    }
+                    alerts_result.append(alertObj)
+                    
                 last_updated = last_updated = datetime.now().strftime("%d-%m-%Y %H:%M")
      
 
                 return {
                     "status":200,
-                    "results":new_low_list,
+                    "results":alerts_result,
                     "last_updated":last_updated
                 }
 
             elif(filter == "all"):
+                
+                alertsAnalysisColl = os.getenv("ALERTS_ANALYSIS_COLLECTION")
 
-                alertsAnalysisColl = os.getenv("ALERTS_ANALYSIS_COLLECTION") 
-                newLowListCursor = self.db[alertsAnalysisColl].find({}, {"_id":0, "new_high":1, "name":1, "ticker":1})
+                startDate = date.today() - timedelta(5)
+                startDate = startDate.strftime('%Y-%m-%d')
 
-                newLowListStr = dumps(list(newLowListCursor))
-                new_low_list = json.loads(newLowListStr)
-                last_updated = datetime.now().strftime("%d-%m-%Y %H:%M")
+                stockAlertsCursor = self.db[alertsAnalysisColl].find_one( {'ticker':ticker}, {"_id":0, "name":0, "ticker":0} )
+             
+                alertsListStr = dumps(list(stockAlertsCursor))
+                alerts_list = json.loads(alertsListStr)
+                alerts_result = []
+                for alertStr in alerts_list:
+                    alertObj = {
+                        "name": alertStr.replace("_", " "),
+                        "item":stockAlertsCursor[alertStr]
+                    }
+                    alerts_result.append(alertObj)
+                    
+                last_updated = last_updated = datetime.now().strftime("%d-%m-%Y %H:%M")
      
 
                 return {
                     "status":200,
-                    "results":new_low_list,
+                    "results":alerts_result,
                     "last_updated":last_updated
                 }
 
@@ -186,7 +204,7 @@ class AlertRequest:
             return self.response_404
 
 
-    def __get_new_high_ask(self):
+    def __get_stock_profile(self):
         try:
             print(" am at __get_new_high_ask")
             filter=self.params.get('filter')
@@ -246,7 +264,7 @@ class AlertRequest:
             return self.response_404
 
 
-    def __get_new_low_ask(self):
+    def __get_stock_quote(self):
         try:
             print(" am at __get_new_low_ask")
             filter=self.params.get('filter')
@@ -306,134 +324,7 @@ class AlertRequest:
             return self.response_404
 
 
-    def __get_new_high_bid(self):
-        try:
-            print(" am at __get_new_high_bid")
-            filter=self.params.get('filter')
 
-            if(filter == "something"):
-
-                alertsAnalysisColl = os.getenv("ALERTS_ANALYSIS_COLLECTION")
-
-                startDate = date.today() - timedelta(5)
-                startDate = startDate.strftime('%Y-%m-%d')
-
-                # newHighListCursor = self.db[alertsAnalysisColl].find( {'new_high.last_updated':{"$gte": startDate}} )
-
-                # TODO:
-                # Uncomment below for real results
-
-                newHighListCursor = self.db[alertsAnalysisColl].find( {'new_high.price_date':{ "$gte": startDate }}, {"_id":0, "new_high":1, "name":1, "ticker":1} )
-             
-                newHighListStr = dumps(list(newHighListCursor))
-                new_high_list = json.loads(newHighListStr)
-                last_updated = datetime.now().strftime("%d-%m-%Y %H:%M")
-     
-
-                return {
-                    "status":200,
-                    "results":new_high_list,
-                    "last_updated":last_updated
-                }
-
-            elif(filter == "all"):
-
-
-                alertsAnalysisColl = os.getenv("ALERTS_ANALYSIS_COLLECTION")
-
-                startDate = date.today() - timedelta(5)
-                startDate = startDate.strftime('%Y-%m-%d')
-
-                newHighListCursor = self.db[alertsAnalysisColl].find({}, {"_id":0, "new_high":1, "name":1, "ticker":1})
-             
-                newHighListStr = dumps(list(newHighListCursor))
-                new_high_list = json.loads(newHighListStr)
-                last_updated = datetime.now().strftime("%d-%m-%Y %H:%M")
-     
-
-                return {
-                    "status":200,
-                    "results":"__get_new_low",
-                    "last_updated":last_updated
-                }
-
-            else:
-                raise Exception('Wrong filter name')
-            
-        except Exception as e:
-            # print('Error processing ticker with ticker ', ticker , "  and reason is ", e)
-            print('Error processing ticker with ticker ', e)
-            return self.response_404
-
-
-    def __get_new_low_bid(self):
-        try:
-            print(" am at __get_new_low_bid")
-            filter=self.params.get('filter')
-
-            if(filter == "something"):
-
-                alertsAnalysisColl = os.getenv("ALERTS_ANALYSIS_COLLECTION")
-
-                startDate = date.today() - timedelta(5)
-                startDate = startDate.strftime('%Y-%m-%d')
-
-                # newHighListCursor = self.db[alertsAnalysisColl].find( {'new_high.last_updated':{"$gte": startDate}} )
-
-                # TODO:
-                # Uncomment below for real results
-
-                newHighListCursor = self.db[alertsAnalysisColl].find( {'new_high.price_date':{ "$gte": startDate }}, {"_id":0, "new_high":1, "name":1, "ticker":1} )
-             
-                newHighListStr = dumps(list(newHighListCursor))
-                new_high_list = json.loads(newHighListStr)
-                last_updated = datetime.now().strftime("%d-%m-%Y %H:%M")
-     
-
-                return {
-                    "status":200,
-                    "results":new_high_list,
-                    "last_updated":last_updated
-                }
-
-            elif(filter == "all"):
-
-
-                alertsAnalysisColl = os.getenv("ALERTS_ANALYSIS_COLLECTION")
-
-                startDate = date.today() - timedelta(5)
-                startDate = startDate.strftime('%Y-%m-%d')
-
-                newHighListCursor = self.db[alertsAnalysisColl].find({}, {"_id":0, "new_high":1, "name":1, "ticker":1})
-             
-                newHighListStr = dumps(list(newHighListCursor))
-                new_high_list = json.loads(newHighListStr)
-                last_updated = datetime.now().strftime("%d-%m-%Y %H:%M")
-     
-
-                return {
-                    "status":200,
-                    "results":"__get_new_low",
-                    "last_updated":last_updated
-                }
-
-            else:
-                raise Exception('Wrong filter name')
-            
-        except Exception as e:
-            # print('Error processing ticker with ticker ', ticker , "  and reason is ", e)
-            print('Error processing ticker with ticker ', e)
-            return self.response_404
-
-
-# ##############################################################
-#
-#               Helper Functions
-#
-# ##############################################################
-
-
-    def __aggregateTickerMiniChart(self, ticker):
 
         historicalHourReply = requests.get(self.fmgURL+"historical-chart/1hour/"+ticker['ticker']+"?apikey="+self.fmgKey)
 

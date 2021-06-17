@@ -1,6 +1,5 @@
 
 import talib
-import yfinance as yf
 import pandas as pd
 from flask import Flask, jsonify, make_response, request
 from pymongo import MongoClient
@@ -13,9 +12,13 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+
+from cors_controller import CorsController
+from stock_watch_route import StockRequest
 from strategies_route import StrategyRequest
 from alerts_route import AlertRequest
-from cors_controller import CorsController
+from manager_route import ManagerRequest
+
 
 app = Flask(__name__)
 
@@ -56,6 +59,18 @@ def api_alert():
 
 
 
+@app.route('/api/v1/stock', methods=['OPTIONS', 'GET'])
+def api_stock():
+    cors=CorsController()
+    if request.method == 'OPTIONS':
+        return cors.preflight()
+    elif request.method == 'GET':
+        handler=StockRequest(request.args)
+        reply = handler.getRequest()
+        return cors.response_control(reply)
+
+
+
 
 @app.route('/api/v1/screener', methods=['OPTIONS', 'GET'])
 def api_screener():
@@ -66,6 +81,9 @@ def api_screener():
         handler=StrategyRequest(request.args)
         reply = handler.getRequest()
         return cors.response_control(reply)
+
+
+
 
 
 @app.route('/api/v1/ticker_info', methods=['OPTIONS', 'GET'])
@@ -84,17 +102,19 @@ def api_ticker_info():
             apiKey = os.getenv("FMG_KEY")
             url = os.getenv("FMG_URL")
 
-            gainersTickersReply = requests.get(url+"profile/"+ticker+"?apikey="+apiKey)
-            gainersTickers = json.loads(gainersTickersReply.text)[0]
+            stockInfoReply = requests.get(url+"quote/"+ticker+"?apikey="+apiKey)
+            stockInfo = json.loads(stockInfoReply.text)[0]
 
-
-            results = {"ticker":ticker,
-                "name":gainersTickers['companyName'],
-                "price":gainersTickers['price'],
-                "changes":gainersTickers['changes'],
-                "volume":gainersTickers['volAvg'],
-                "market cap":gainersTickers['mktCap'],
-                "intraday range":gainersTickers['range']
+            results = {
+                "ticker":ticker,
+                "name":stockInfo['name'],
+                "price":stockInfo['price'],
+                "change":stockInfo['change'],
+                "change percentage":stockInfo['changesPercentage'],
+                "volume":stockInfo['volume'],
+                "market cap":stockInfo['marketCap'],
+                "day range":"$%s - $%s" %(stockInfo['dayLow'], stockInfo['dayHigh']),
+                "open":stockInfo['open']
             }
 
             reply = {
@@ -244,43 +264,28 @@ def api_screener_header():
 
 
 
+
+
+
+
+
+
+
+
+
+@app.route('/api/v1/manager', methods=['OPTIONS', 'GET'])
+def api_manager():
+    cors=CorsController()
+    if request.method == 'OPTIONS':
+        return cors.preflight()
+    elif request.method == 'GET':
+        handler=ManagerRequest(request.args)
+        reply = handler.getRequest()
+        return cors.response_control(reply)
+
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
-
-
-
-
-
-
-
-
-
-
-# @app.route('/api/v1/xxxxxxx', methods=['OPTIONS', 'GET'])
-# def api_xxx():
-#       cors=CorsController()
-#     if request.method == 'OPTIONS': 
-#         return screener_header_preflight()
-#     elif request.method == 'GET':
-#         # TODO
-#         # 
-#         try:
-
-
-
-#             # return screener_header_actual(jsonify({reply}))
-#             return screener_header_actual(jsonify({"reply":"succes"}))
-
-#         except Exception as e:
-#             # print('Error processing ticker with symbol ', symbol , "  and reason is ", e)
-#             print('Error processing.... ' )
-#             reply = {
-#                 "status":404,
-#                 "results":"not found"
-#             }
-
-#             return screener_header_actual(jsonify(reply))
-
-
 
 
