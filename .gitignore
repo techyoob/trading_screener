@@ -2,3 +2,4 @@
 classic_bots/alerts_processor/.env
 classic_bots/candlestick_patterns_classifier/.env
 classic_bots/social_trend_processor/.env
+~/.vscode-root/storage.json
