@@ -3,8 +3,9 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import './alerts.css';
+import '../pages.css';
+
 import CandlestickPatternsAnalysis from './candlestickPatternsAnalysis'
-import MiniLineChart from '../../components/miniatureLineChart'
 
 import { 
     FaSearch,
@@ -57,7 +58,7 @@ const AlertsPage = (props) => {
         method: "GET",
         headers: { 'Content-Type': 'application/json' }
       }
-    )
+      )
       .then(res => res.json())
       .then(response => {
         
@@ -105,7 +106,7 @@ const AlertsPage = (props) => {
 
       </div>
     );
-  }
+}
 
 
 
@@ -168,26 +169,29 @@ const SelectedAlertBody = (props) => {
           </div>
         </div>
         <div className="alert-items-div">
-          {props.alertData.map((item, i)=>{
-            
-              return (
-                <div className="ticker-alert-item-div"
-                    key={i}
-                    onClick={()=>props.onAlertChange(item.name)}>
-                      <div className="ticker-alert-title-div">
-                        {item.ticker}
-                      </div>
-                      <div className="ticker-alert-title-div">
-                        {`$ ${item[selectedAlert]?.price.toFixed(2)}`}
-                      </div>
-                      <div className="ticker-alert-title-div">
-                        {item[selectedAlert]?.price_date}
-                      </div>
-                      <div className="ticker-alert-title-div">
-                        
-                      </div>
-                </div>);
-          })}
+          {props.isLoading 
+            ? null
+            : props.alertData.map((item, i)=>{
+              
+                return (
+                  <div className="ticker-alert-item-div"
+                      key={i}
+                      onClick={()=>props.onAlertChange(item.name)}>
+                        <div className="ticker-alert-title-div">
+                          {item.ticker}
+                        </div>
+                        <div className="ticker-alert-title-div">
+                          {`$ ${item[selectedAlert]?.price.toFixed(2)}`}
+                        </div>
+                        <div className="ticker-alert-title-div">
+                          {item[selectedAlert]?.price_date}
+                        </div>
+                        <div className="ticker-alert-title-div">
+                          
+                        </div>
+                  </div>);
+              })
+          }
         </div>
         <div className="alert-footers-div">
           <span className="last-list-update">
@@ -507,4 +511,5 @@ const StartegyItemLoader = (props) => {
     default:
       return null;
   }
+  
 }

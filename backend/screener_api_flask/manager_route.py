@@ -25,7 +25,7 @@ class ManagerRequest:
 
     response_404 = {
         "status":404,
-        "results":"not found"
+        "results":[]
     }
 
     response_200 = {
@@ -103,9 +103,8 @@ class ManagerRequest:
                 "last_updated":last_updated
             }
             
-        except Exception as e:
-            # print('Error processing ticker with ticker ', ticker , "  and reason is ", e)
-            print('Error processing ticker with ticker ', e)
+        except Exception as e:            
+            print('Error processing manager route at system overview', e)
             return self.response_404
 
 
@@ -123,8 +122,7 @@ class ManagerRequest:
 
             
         except Exception as e:
-            # print('Error processing ticker with ticker ', ticker , "  and reason is ", e)
-            print('Error processing ticker with ticker ', e)
+            print('Error processing manager route at something else ', e)
             return self.response_404
 
 

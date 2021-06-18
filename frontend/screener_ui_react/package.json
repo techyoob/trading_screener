@@ -1,5 +1,6 @@
 {
   "name": "shares_screener_ui_react",
+  "homepage": "https://techyoob.com/trading_screener_UI",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
