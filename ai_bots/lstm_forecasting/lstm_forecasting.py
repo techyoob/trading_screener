@@ -161,8 +161,8 @@ for item in mostGainersTickers:
     result = processForecasting(item, tickerHistoryResponse.json())
     if(result['status'] != "success"):
         errorDate = datetime.datetime.now()
-        report = '%s  -  error processing ticker forecasting for  %s \n' %(errorDate, item['ticker'])
-        file_object = open('log.txt', 'a')
+        report = '%s  -  Error processing ticker forecasting for %s \n' %(errorDate, item['ticker'])
+        file_object = open('lstm_forecasting.log', 'a')
         file_object.write(report)
         file_object.close()
 
