@@ -8,16 +8,25 @@ import json
 from pymongo import MongoClient
 import datetime
 import time
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 filenames = ["nasdaqlisted.csv", "otherlisted.csv"]
+
+
+
+
+mongoURL = os.getenv("DB_URL")
+dbName = os.getenv("DB_NAME")
+
 
 
 def populate():
         try:
             print('Populating Big Bang Ticker List...')
-            client = MongoClient('mongodb://localhost:27017/')
-            db = client['big_bang']
+            client = MongoClient(mongoURL)
+            db = client[dbName]
             tickers_collection = db['tickers_list']
 
             for filename in filenames:
