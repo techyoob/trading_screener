@@ -9,3 +9,4 @@ classic_bots/stock_list_populator/.env
 ~/.vscode-root/Cache/3ce27400d4032507_0
 ~/.vscode-root/Network Persistent State
 ~/.vscode-root/TransportSecurity
+ai_bots/lstm_forecasting/.env
