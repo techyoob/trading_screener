@@ -12,3 +12,4 @@ classic_bots/stock_list_populator/.env
 ai_bots/lstm_forecasting/.env
 backend/screener_api_flask/__pycache__/
 ~/.vscode-root/Cache/index-dir/the-real-index
+~/.vscode-root/Cache/index-dir/the-real-index
