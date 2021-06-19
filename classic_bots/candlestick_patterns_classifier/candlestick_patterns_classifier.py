@@ -37,14 +37,12 @@ patterns_collection = db['candle_patterns']
 
 def processCandlePatternsAnalysis(item, tickerHistory):
     try:
-        
+
         df = pd.DataFrame(tickerHistory['historical'][::-1])
 
         patterns_analysis_collection = db['candlestick_patterns_analysis_list']
 
         patternsCount = patterns_collection.count_documents({})
-
-        
 
         bullsCount=0
         bearsCount=0
@@ -63,6 +61,7 @@ def processCandlePatternsAnalysis(item, tickerHistory):
             except Exception as e:
                 print('Error at : ')
         
+
         
         analysisDoc = {
                 "name":item['name'],
@@ -76,7 +75,8 @@ def processCandlePatternsAnalysis(item, tickerHistory):
         }        
 
         patterns_analysis_collection.find_one_and_update({'name': analysisDoc['name']}, {'$set':analysisDoc}, upsert=True)
-        print('patterns of %s stock have been processed' %(item['ticker']))
+
+        print('Candlestick patterns for stock %s have been processed!' %(item['ticker']))
 
         return {
             "status":"success",
@@ -133,7 +133,7 @@ for item in tickers_list_collection.find():
     if(result['status'] != "success"):
         errorDate = datetime.datetime.now()
         report = '%s  -  error processing ticker candle patterns analysis for  %s \n' %(errorDate, item['ticker'])
-        file_object = open('log.txt', 'a')
+        file_object = open('candlestick_patterns_classifier.log', 'a')
         file_object.write(report)
         file_object.close()
 
