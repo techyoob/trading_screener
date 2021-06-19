@@ -292,6 +292,12 @@ class AlertThreads:
 
     def __bollinger_band_squeeze_alert(self, params):
         try:
+            #TODO:
+            # + get 1 minute data history 
+            # + process bb wit talib
+            # + detect a squeeze
+            # + if squeeze detected, analyze whether buy or sell
+            # + 
 
             return self.response_200
             

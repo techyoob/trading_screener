@@ -179,7 +179,7 @@ def analyzeAlerts(params):
 def saveReport(report):
     reportDate = datetime.now()
     logReport = '%s  - %s \n' %(reportDate, report)
-    file_object = open('log.txt', 'a')
+    file_object = open('alerts_processor.log', 'a')
     file_object.write(logReport)
     file_object.close()
 
@@ -192,7 +192,6 @@ processorTic = time.perf_counter()
 run_processor()
 processorToc = time.perf_counter()
 print(f'Processor finished in {processorToc - processorTic:0.4f} seconds')
-
 
 
 
