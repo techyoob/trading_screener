@@ -93,7 +93,7 @@ class ManagerRequest:
                 tasksOverview.append(taskObj)
 
             f.close()
-       
+                   
             last_updated = datetime.now().strftime("%d-%m-%Y %H:%M")
     
 
@@ -103,8 +103,9 @@ class ManagerRequest:
                 "last_updated":last_updated
             }
             
-        except Exception as e:            
-            print('Error processing manager route at system overview', e)
+        except Exception as e:
+            # print('Error processing ticker with ticker ', ticker , "  and reason is ", e)
+            print('Error processing ticker with ticker ', e)
             return self.response_404
 
 
@@ -122,7 +123,9 @@ class ManagerRequest:
 
             
         except Exception as e:
-            print('Error processing manager route at something else ', e)
+            # print('Error processing ticker with ticker ', ticker , "  and reason is ", e)
+            print('Error processing ticker with ticker ', e)
             return self.response_404
 
 
+        

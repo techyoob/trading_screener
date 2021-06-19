@@ -49,7 +49,7 @@ class StrategyRequest:
 
 
     def getRequest(self):
-        strategy=self.params.get('strat')
+        strategy=self.params.get('query')
 
         
         if(strategy is None or len(strategy) < 1):

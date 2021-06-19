@@ -22,7 +22,7 @@ class AlertRequest:
 
     response_404 = {
         "status":404,
-        "results":"not found"
+        "results":[]
     }
 
     response_200 = {
@@ -53,7 +53,7 @@ class AlertRequest:
 
 
     def getRequest(self):
-        alert=self.params.get('name')
+        alert=self.params.get('query')
 
 
         if(alert is None or len(alert) < 1):

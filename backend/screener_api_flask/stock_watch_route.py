@@ -22,7 +22,7 @@ class StockRequest:
 
     response_404 = {
         "status":404,
-        "results":"not found"
+        "results":[]
     }
 
     response_200 = {
@@ -206,7 +206,7 @@ class StockRequest:
 
     def __get_stock_profile(self):
         try:
-            print(" am at __get_new_high_ask")
+            print(" am at ")
             filter=self.params.get('filter')
 
             if(filter == "something"):

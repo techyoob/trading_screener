@@ -1,4 +1,10 @@
 
+
+
+# Commemt 
+
+
+
 import talib
 import pandas as pd
 from flask import Flask, jsonify, make_response, request
@@ -26,7 +32,7 @@ app = Flask(__name__)
 
 response_404 = {
     "status":404,
-    "results":"not found"
+    "results":[]
 }
 
 response_200 = {
@@ -47,6 +53,7 @@ def home():
 
 
 
+
 @app.route('/api/v1/alert', methods=['OPTIONS', 'GET'])
 def api_alert():
     cors=CorsController()
@@ -56,6 +63,7 @@ def api_alert():
         handler=AlertRequest(request.args)
         reply = handler.getRequest()
         return cors.response_control(reply)
+
 
 
 
@@ -81,6 +89,23 @@ def api_screener():
         handler=StrategyRequest(request.args)
         reply = handler.getRequest()
         return cors.response_control(reply)
+
+
+
+
+@app.route('/api/v1/manager', methods=['OPTIONS', 'GET'])
+def api_manager():
+    cors=CorsController()
+    if request.method == 'OPTIONS':
+        return cors.preflight()
+    elif request.method == 'GET':
+        handler=ManagerRequest(request.args)
+        reply = handler.getRequest()
+        return cors.response_control(reply)
+
+
+
+
 
 
 
@@ -134,8 +159,6 @@ def shortBigNumber(number):
     return str(int(number/pow(10,12)))+"."+str(int(number/pow(10,10))%100)+"T" if numberLength > 12 else str(int(number/pow(10,9)))+"."+str(int(number/pow(10,7))%100)+"B" if numberLength > 9 else str(int(number/pow(10,6)))+"."+str(int(number/pow(10,4))%100)+"M" if numberLength > 6 else number
 
 
-
-
 @app.route('/api/v1/ticker_history', methods=['OPTIONS', 'GET'])
 def api_ticker_history():
     cors=CorsController()
@@ -184,10 +207,6 @@ def api_ticker_history():
             # print('Error processing ticker with symbol ', symbol , "  and reason is ", e)
             print('Error processing ticker with symbol ', symbol)
             return cors.response_control(response_404)
-
-
-
-
 
 
 @app.route('/api/v1/screener_header', methods=['OPTIONS', 'GET'])
@@ -269,19 +288,6 @@ def api_screener_header():
 
 
 
-
-
-
-
-@app.route('/api/v1/manager', methods=['OPTIONS', 'GET'])
-def api_manager():
-    cors=CorsController()
-    if request.method == 'OPTIONS':
-        return cors.preflight()
-    elif request.method == 'GET':
-        handler=ManagerRequest(request.args)
-        reply = handler.getRequest()
-        return cors.response_control(reply)
 
 
 
