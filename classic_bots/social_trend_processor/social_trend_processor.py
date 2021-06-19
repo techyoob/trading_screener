@@ -84,7 +84,7 @@ def populate_social_trends():
                     }
 
                     socialColl.find_one_and_update({'ticker':item['stock']}, {'$set':itemDocument}, upsert=True)
-                    print(" Ticker %s was updated " %(item['stock']))
+                    print(" Social trend for stock %s has been processed " %(item['stock']))
                 else:
                     print('!!!Cant fetch daily sentiment for ticker %s !!!' %(item['stock']))
                     saveReport('!!!Cant fetch daily sentiment for ticker %s !!!' %(item['stock']))
@@ -110,7 +110,7 @@ def populate_social_trends():
 def saveReport(report):
     reportDate = datetime.datetime.now()
     logReport = '%s  - %s \n' %(reportDate, report)
-    file_object = open('log.txt', 'a')
+    file_object = open('social_trend_processor.log', 'a')
     file_object.write(logReport)
     file_object.close()
 
