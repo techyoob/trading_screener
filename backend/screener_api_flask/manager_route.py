@@ -93,7 +93,7 @@ class ManagerRequest:
                 tasksOverview.append(taskObj)
 
             f.close()
-                   
+       
             last_updated = datetime.now().strftime("%d-%m-%Y %H:%M")
     
 
@@ -126,4 +126,3 @@ class ManagerRequest:
             return self.response_404
 
 
-        

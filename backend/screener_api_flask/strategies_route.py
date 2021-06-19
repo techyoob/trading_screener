@@ -22,7 +22,7 @@ class StrategyRequest:
 
     response_404 = {
         "status":404,
-        "results":"not found"
+        "results":[]
     }
 
     response_200 = {

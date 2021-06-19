@@ -8,5 +8,7 @@ classic_bots/stock_list_populator/.env
 ~/.vscode-root/TransportSecurity
 ~/.vscode-root/Cache/3ce27400d4032507_0
 ~/.vscode-root/Network Persistent State
-~/.vscode-root/TransportSecurity
+~/.vscode-root/
 ai_bots/lstm_forecasting/.env
+backend/screener_api_flask/__pycache__/
+~/.vscode-root/Cache/index-dir/the-real-index
