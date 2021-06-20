@@ -106,7 +106,7 @@ const SocialTrends = (props) => {
 
     setIsLoading(true)
     fetch(
-      `${process.env.REACT_APP_URL}screener?strat=social_trends&filter=top30`,
+      `${process.env.REACT_APP_URL}screener?query=social_trends&filter=top30`,
       {
         method: "GET",
         headers: { 'Content-Type': 'application/json' }
@@ -217,7 +217,7 @@ const PatternsAnalysis = (props) => {
 
     setIsLoading(true)
     fetch(
-    `${process.env.REACT_APP_URL}screener?strat=patterns_analysis&filter=top50`,
+    `${process.env.REACT_APP_URL}screener?query=patterns_analysis&filter=top50`,
     {
       method: "GET",
       headers: { 'Content-Type': 'application/json' }
@@ -321,7 +321,7 @@ const MostGainers = (props) => {
   const requestData = (isMounted) => {
 
     setIsLoading(true)
-    fetch( `${process.env.REACT_APP_URL}screener?strat=most_gainers&filter=top30`,
+    fetch( `${process.env.REACT_APP_URL}screener?query=most_gainers&filter=top30`,
     {
       method: "GET",
       headers: { 'Content-Type': 'application/json' }
@@ -433,7 +433,7 @@ const MostLosers = (props) => {
 
     setIsLoading(true)
     fetch(
-    `${process.env.REACT_APP_URL}screener?strat=most_losers&filter=top30`,
+    `${process.env.REACT_APP_URL}screener?query=most_losers&filter=top30`,
     {
       method: "GET",
       headers: { 'Content-Type': 'application/json' }
@@ -455,7 +455,7 @@ const MostLosers = (props) => {
             
     })
     .catch(error => {
-        console.log("am here at MostLoser error ", error)
+        console.log(" MostLoser query error ", error)
         if(isMounted){
           setData([])
           setIsLoading(false)
