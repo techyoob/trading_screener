@@ -21,7 +21,7 @@ const menuElements = ["home", "alerts", "stock watch",  "big bang", "search"]
 
 function App() {
 
-  const [selectedPage, setSelectedPage] = useState(menuElements[2])
+  const [selectedPage, setSelectedPage] = useState(menuElements[0])
   const [stock, setStock] = useState({
     name:"",
     ticker:"AAPL"

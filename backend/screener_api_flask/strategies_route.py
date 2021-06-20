@@ -57,7 +57,7 @@ class StrategyRequest:
 
         if(strategy == "big_bang"):
             return self. __get_big_bang()
-        
+
         if(strategy == "patterns_analysis"):
             return self.__get_candlestick_patterns_analysis()
 
@@ -170,6 +170,7 @@ class StrategyRequest:
                 social_trend_list = json.loads(social_trend_str)
 
                 last_updated = today.strftime("%d/%m/%Y %H:%M")
+
 
                 return {
                     "status":200,
