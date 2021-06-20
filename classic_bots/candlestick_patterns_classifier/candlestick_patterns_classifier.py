@@ -1,4 +1,5 @@
 
+import sys
 import os
 from pymongo import MongoClient
 import talib
@@ -100,7 +101,6 @@ def processCandlePatternsAnalysis(item, tickerHistory):
 def generatePatterns():
     try:
             
-        print('Generating Patterns...')
         
         for key, value in patterns.candle_patterns.items():
             patternDoc = {
@@ -109,7 +109,7 @@ def generatePatterns():
             }
 
             patterns_collection.find_one_and_update({'name': value}, {'$set':patternDoc}, upsert=True)
-            
+            print('Pattern %s code was added!' %value)
 
 
     except Exception as e:
@@ -120,23 +120,30 @@ def generatePatterns():
 
 
 
+def run(loadPatterns):
+    print("Classifier started...")
+
+    if loadPatterns:
+        generatePatterns()
+
+    for item in tickers_list_collection.find():
+        tickerHistoryResponse = requests.get(url+"historical-price-full/"+item['ticker']+"?apikey="+apiKey)    
+        result = processCandlePatternsAnalysis(item, tickerHistoryResponse.json())
+        if(result['status'] != "success"):
+            errorDate = datetime.datetime.now()
+            report = '%s  -  error processing ticker candle patterns analysis for  %s \n' %(errorDate, item['ticker'])
+            file_object = open('candlestick_patterns_classifier.log', 'a')
+            file_object.write(report)
+            file_object.close()
 
 
-print("Classifier started...")
-
-
-# generatePatterns()
-
-for item in tickers_list_collection.find():
-    tickerHistoryResponse = requests.get(url+"historical-price-full/"+item['ticker']+"?apikey="+apiKey)    
-    result = processCandlePatternsAnalysis(item, tickerHistoryResponse.json())
-    if(result['status'] != "success"):
-        errorDate = datetime.datetime.now()
-        report = '%s  -  error processing ticker candle patterns analysis for  %s \n' %(errorDate, item['ticker'])
-        file_object = open('candlestick_patterns_classifier.log', 'a')
-        file_object.write(report)
-        file_object.close()
 
 
 
-
+if __name__ == "__main__":
+    
+    loadPatterns = False
+    if sys.argv[1:]:
+        loadPatterns = True if sys.argv[1] == 'patterns' else False
+       
+    run(loadPatterns)
