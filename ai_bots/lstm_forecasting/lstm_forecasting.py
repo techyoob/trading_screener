@@ -81,8 +81,8 @@ def processForecasting(item,tickerHistory):
         df = pd.DataFrame(scaler.fit_transform(df), columns =df.columns, index=df.index)
         df.head()
 
-        n_per_in = 30
-        n_per_out = 10
+        n_per_in = 15
+        n_per_out = 5
 
         n_features = 1
 
@@ -92,18 +92,18 @@ def processForecasting(item,tickerHistory):
         X = X.reshape(X.shape[0],X.shape[1],n_features)
 
         model = Sequential()
-        model.add(LSTM(60, activation='softsign', return_sequences=True, input_shape=(n_per_in,n_features)))
-        model.add(LSTM(20, activation='softsign', return_sequences=True))
-        model.add(LSTM(20, activation='softsign', return_sequences=True))
-        model.add(LSTM(20, activation='softsign', return_sequences=True))
-        model.add(LSTM(20, activation='softsign', return_sequences=True))
-        model.add(LSTM(20, activation='softsign'))
+        model.add(LSTM(50, activation='softsign', return_sequences=True, input_shape=(n_per_in,n_features)))
+        model.add(LSTM(15, activation='softsign', return_sequences=True))
+        model.add(LSTM(15, activation='softsign', return_sequences=True))
+        model.add(LSTM(15, activation='softsign', return_sequences=True))
+        model.add(LSTM(15, activation='softsign', return_sequences=True))
+        model.add(LSTM(15, activation='softsign'))
         model.add(Dense(n_per_out))
 
         model.summary()
 
         model.compile(optimizer='adam',loss='mse', metrics=['accuracy'])
-        res = model.fit(X,y, epochs=120, batch_size=32, validation_split=0.1)
+        res = model.fit(X,y, epochs=60, batch_size=32, validation_split=0.1)
         
 
 
