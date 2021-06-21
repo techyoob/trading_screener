@@ -127,11 +127,11 @@ const StockOverview = (props) => {
                 </div>
                 <div className="stock-overview-element-div">
                     <span className="overview-ticker-price">
-                        <span style={{fontSize:"25px", fontWeight:"bold"}}>{`$${data['price']}`} </span>
+                        <span style={{fontSize:"18px", fontWeight:"bold"}}>{`$${data['price']}`} </span>
                         <span >{`$${data['change']} (${data['change percentage']}%)`} </span>
                     </span>
                 </div>
-                <div className="stock-overview-element-div">                    
+                <div className="stock-overview-element-div">
                     <span className="overview-item-key">Open</span>
                     <span className="overview-item-value">{`$${data['open']}`}</span>
                 </div>
