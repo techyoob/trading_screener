@@ -53,7 +53,7 @@ const AlertsPage = (props) => {
       
 
       setIsLoading(true)
-      fetch( `${process.env.REACT_APP_URL}alert?name=${selectedAlertName}&filter=5days`,
+      fetch( `${process.env.REACT_APP_URL}alert?query=${selectedAlertName}&filter=5days`,
       {
         method: "GET",
         headers: { 'Content-Type': 'application/json' }
@@ -74,7 +74,6 @@ const AlertsPage = (props) => {
           }
         }
   
-        
       })
       .catch(error => {
           console.log("API request error at AlertsPage ", error)
