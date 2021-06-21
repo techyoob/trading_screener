@@ -64,15 +64,15 @@ export default StockWatchPage;
 
 const StockOverview = (props) => {
 
-    
+
     const [isLoading, setIsLoading] = useState(false)
     const [data, setData] = useState({})
 
 
     useEffect(() => {
-        
+
         let isMounted = true;
-        
+
         requestData(isMounted, props.stock.ticker)
         return function cleanup() {
             isMounted = false;
@@ -93,7 +93,7 @@ const StockOverview = (props) => {
 
             if(isMounted){
                 if(response.status===200){
-
+                    
                     setData(response.results)
                     setIsLoading(false)
                 } else {
@@ -119,9 +119,8 @@ const StockOverview = (props) => {
                 Overview
             </div>
             {isLoading?
-            <div className="loading-spinner"> <Spinner  size="20px" color="white" /></div>               
-            :data.length > 0 
-            ? <div className="stock-overview-details-div">
+            <div className="loading-spinner"> <Spinner  size="20px" color="white" /></div> 
+            : <div className="stock-overview-details-div">
                 <div className="stock-overview-element-div">
                     <span className="overview-ticker"> {data['ticker']} </span>
                     <span className="overview-name"> {data['name']} </span>
@@ -148,9 +147,7 @@ const StockOverview = (props) => {
                     <span className="overview-item-key">Day Range</span>
                     <span className="overview-item-value">{`${data['day range']}`}</span>
                 </div>
-            </div> 
-            : <div className="loading-spinner"> </div>}
-            
+            </div>}
         </div>);
 }
 

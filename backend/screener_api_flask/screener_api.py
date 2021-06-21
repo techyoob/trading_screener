@@ -171,8 +171,8 @@ def api_ticker_history():
             symbol = request.args.get('ticker')            
             if(symbol is None or len(symbol) < 1):
                 raise Exception('symbol is None or len(symbol) < 1')
-            
-            
+
+
             period = request.args.get('p')            
             if(period is None):
                 raise Exception('period is None or len(symbol) < 1')
