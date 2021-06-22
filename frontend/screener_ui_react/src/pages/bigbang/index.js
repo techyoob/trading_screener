@@ -51,7 +51,7 @@ const BigBangPage = (props) => {
 
       setIsLoading(true)
       fetch(
-        `${process.env.REACT_APP_URL}screener?strat=big_bang&filter=top50`,
+        `${process.env.REACT_APP_URL}screener?query=big_bang&filter=top50`,
         {
           method: "GET",
           headers: { 'Content-Type': 'application/json' }

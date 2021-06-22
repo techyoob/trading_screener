@@ -14,7 +14,6 @@ from bson.json_util import dumps
 import os
 from dotenv import load_dotenv
 load_dotenv()
-today = date.today()
 
 
 
