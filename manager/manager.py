@@ -24,19 +24,7 @@ def initializeScreener():
         scheduler.set(task)
 
     
-    # startups = config.get('startups', [])
-    # for startup in startups:
-    #     #TODO
-    #     # - run every startup in the array
-
-
-    #     p = subprocess.run(["D:\\screener_project\\frontend\\big_bang_screener_ui_react\\run.bat"],  creationflags=subprocess.CREATE_NEW_CONSOLE)
-    #     # subprocess.call(r'start D:\screener_project\frontend\big_bang_screener_ui_react\run.bat',creationflags=subprocess.CREATE_NEW_CONSOLE,  shell=True)
-    #     print(startup)
-
-
-
-    print("end of initializeBigBang")
+    print("Screener has been initialized!")
 
 
 

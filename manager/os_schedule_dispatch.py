@@ -50,7 +50,13 @@ class TaskScheduler:
                 subprocess.call(command)
 
 
-
+        if platform.system() == 'Linux':
+            from crontab import CronTab
+            cron = CronTab(user='root')
+            job = cron.new(command='echo hello_world')
+            job.minute.every(1)
+            cron.write()
+                        
 
     def __getOSTaskSchedule(self):
         print(" am here at __getOSTaskSchedule ")

@@ -165,7 +165,7 @@ class StrategyRequest:
 
                 # recentTrend=datetime(2021, 4, 16).strftime("%Y-%m-%d")
 
-                social_trend_cursor = self.db[collection].find({'date':startDateStr}).limit(50)            
+                social_trend_cursor = self.db[collection].find({'date':{ '$gte': startDateStr}}).limit(50)            
 
                 social_trend_str = dumps(list(social_trend_cursor))
                 social_trend_list = json.loads(social_trend_str)

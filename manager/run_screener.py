@@ -9,7 +9,8 @@ import manager
 
 
 def run():
-    print('running trading screener')
+    print('Initializing screener...')
+    manager.initializeScreener()
 
 
 
