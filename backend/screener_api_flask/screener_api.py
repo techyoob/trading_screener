@@ -171,8 +171,8 @@ def api_ticker_history():
             symbol = request.args.get('ticker')            
             if(symbol is None or len(symbol) < 1):
                 raise Exception('symbol is None or len(symbol) < 1')
-
-
+            
+            
             period = request.args.get('p')            
             if(period is None):
                 raise Exception('period is None or len(symbol) < 1')
@@ -292,6 +292,9 @@ def api_screener_header():
 
 
 if __name__ == "__main__":
+
+    import logging
+    logging.basicConfig(filename='screener_flask_api.log', format='%(asctime)s  [ %(levelname)s ]  %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
     app.run(host='0.0.0.0')
 
 
