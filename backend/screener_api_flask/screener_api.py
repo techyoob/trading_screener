@@ -293,8 +293,8 @@ def api_screener_header():
 
 if __name__ == "__main__":
 
-    import logging
-    logging.basicConfig(filename='screener_flask_api.log', format='%(asctime)s  [ %(levelname)s ]  %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
+    # import logging
+    # logging.basicConfig(filename='screener_flask_api.log', format='%(asctime)s  [ %(levelname)s ]  %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
     app.run(host='0.0.0.0')
 
 
