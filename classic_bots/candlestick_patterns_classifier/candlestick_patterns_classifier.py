@@ -1,4 +1,5 @@
 
+
 import sys
 import os
 from pymongo import MongoClient
@@ -17,6 +18,15 @@ load_dotenv()
 
 
 
+import logging
+
+scriptAbsPath=os.path.dirname(__file__)
+reportFile=scriptAbsPath+'/candlestick_patterns_classifier.log' if len(scriptAbsPath) > 0 else 'candlestick_patterns_classifier.log'
+
+logging.basicConfig(filename=reportFile, format='%(asctime)s  [ %(levelname)s ]  %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
+logging.info(' Candlestick patterns classifier has been started!')
+
+
 apiKey = os.getenv("FMG_KEY")
 url = os.getenv("FMG_URL")
 
@@ -33,23 +43,18 @@ patterns_collection = db['candle_patterns']
 
 
 
-
-
-
 def processCandlePatternsAnalysis(item, tickerHistory):
     try:
-
         df = pd.DataFrame(tickerHistory['historical'][::-1])
 
         patterns_analysis_collection = db['candlestick_patterns_analysis_list']
-
         patternsCount = patterns_collection.count_documents({})
 
         bullsCount=0
         bearsCount=0
         for pattern in patterns_collection.find():
             pattern_function = getattr(talib, pattern['talib_name'])
-            
+    
             try:
                 results = pattern_function(df['open'], df['high'], df['low'], df['close'])
                 last = results.tail(1).values[0]
@@ -60,7 +65,8 @@ def processCandlePatternsAnalysis(item, tickerHistory):
                     bearsCount += 1
 
             except Exception as e:
-                print('Error at : ')
+                logging.warning(' Exception thrown processing pattern %s ' %pattern)
+                # print('Error at : ')
         
 
         
@@ -113,7 +119,8 @@ def generatePatterns():
 
 
     except Exception as e:
-        print('reading file with error ', e)
+        # print('Exception thrown reading patterns csv file  ', e)
+        logging.error(' Exception thrown reading patterns csv file')
 
 
 
@@ -121,7 +128,6 @@ def generatePatterns():
 
 
 def run(loadPatterns):
-    print("Classifier started...")
 
     if loadPatterns:
         generatePatterns()
@@ -130,11 +136,10 @@ def run(loadPatterns):
         tickerHistoryResponse = requests.get(url+"historical-price-full/"+item['ticker']+"?apikey="+apiKey)    
         result = processCandlePatternsAnalysis(item, tickerHistoryResponse.json())
         if(result['status'] != "success"):
-            errorDate = datetime.datetime.now()
-            report = '%s  -  error processing ticker candle patterns analysis for  %s \n' %(errorDate, item['ticker'])
-            file_object = open('candlestick_patterns_classifier.log', 'a')
-            file_object.write(report)
-            file_object.close()
+            logging.warning('Failed to process candlestick patterns for %s' %item['ticker'])
+            
+
+    logging.info(f'Candlestick patterns classifier finished')
 
 
 
