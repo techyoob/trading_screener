@@ -292,9 +292,12 @@ def api_screener_header():
 
 
 if __name__ == "__main__":
+    import logging
+    scriptAbsPath=os.path.dirname(__file__)
+    reportFile=scriptAbsPath+'/screener_flask_api.log' if len(scriptAbsPath)>0 else 'screener_flask_api.log'
 
-    # import logging
-    # logging.basicConfig(filename='screener_flask_api.log', format='%(asctime)s  [ %(levelname)s ]  %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
+    logging.basicConfig(filename=reportFile, format='%(asctime)s  [ %(levelname)s ]  %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
+    logging.info(' Screener api has been started!')
     app.run(host='0.0.0.0')
 
 
