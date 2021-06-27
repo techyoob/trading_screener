@@ -16,10 +16,18 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+import logging
+scriptAbsPath=os.path.dirname(__file__)
+reportFile=scriptAbsPath+'/alerts_processor.log' if len(scriptAbsPath)>0 else 'alerts_processor.log'
+alertsModelsFile=scriptAbsPath+'/alerts.json' if len(scriptAbsPath)>0 else 'alerts.json'
+
+logging.basicConfig(filename=reportFile, format='%(asctime)s  [ %(levelname)s ]  %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
+logging.info(' Alerts processor has been started!')
+
+
+
 from alertThreads import AlertThreads
 at = AlertThreads()
-
-
 
 
 ssKey = os.getenv("SS_KEY")
@@ -38,15 +46,8 @@ db=MongoClient(mongoURL)[dbName]
 alertsCollection=db[alertsCollectionName]
 stocksCollection=db[stocksCollectionName]
 
-alertsModels = json.loads(open('alertsCollectionModel.json', "r").read())
-alerts = json.load(open('alerts.json',  "r"))
+alerts = json.load(open(alertsModelsFile,  "r"))
 
-# TODO:
-# + Load Tickers
-# + Load Alerts
-# + Process multiple tickers in parallel processes
-# + For every ticker, process list of alerts from alerts.json 
-# + save in mongo database
 
 
 class AlertProcessingWorker(Thread):
@@ -75,7 +76,7 @@ class AlertProcessingWorker(Thread):
 
 def run_processor():
     try:
-        print('alerts processor')
+
         
         BATCH_SIZE = 4
         currentCursorPage=0
@@ -86,7 +87,7 @@ def run_processor():
         stocksCurrentCursorPage = stocksCollection.find({}, {"_id":0, "name":1, "ticker":1}).limit(BATCH_SIZE).skip(skipSize)
 
         while( skipSize < stocksCount):
-            print(' ################################ looping at page %s ' %currentCursorPage)
+            print(' ################################ looping batch at page %s ' %currentCursorPage)
 
             stockTic = time.perf_counter()
             
@@ -113,8 +114,7 @@ def run_processor():
 
     except Exception as e:
         print('Error processing  alerts', e)
-        saveReport('Error processing alerts ')
-
+        logging.error(' Error processing Alerts')
 
 
 
@@ -176,22 +176,12 @@ def analyzeAlerts(params):
 
 
 
-def saveReport(report):
-    reportDate = datetime.now()
-    logReport = '%s  - %s \n' %(reportDate, report)
-    file_object = open('alerts_processor.log', 'a')
-    file_object.write(logReport)
-    file_object.close()
-
-
-
-
 
 
 processorTic = time.perf_counter()
 run_processor()
 processorToc = time.perf_counter()
-print(f'Processor finished in {processorToc - processorTic:0.4f} seconds')
+logging.info(f' Processor finished in {processorToc - processorTic:0.4f} seconds!')
 
 
 

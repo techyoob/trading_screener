@@ -11,6 +11,7 @@ import time
 import requests
 import json
 from bson.json_util import dumps
+import logging
 
 import os
 from dotenv import load_dotenv
@@ -33,13 +34,12 @@ class AlertThreads:
         "details":""
     }
 
-    print('Threads')
 
 
 
 
     def __init__(self):
-        print('Initializing Alert threads')
+        logging.info(' Initializing Alert threads')
         dbName = os.getenv("DB_NAME")
         url = os.getenv("DB_URL")
         alertsCollectionName = os.getenv("ALERTS_COLL")
@@ -53,9 +53,6 @@ class AlertThreads:
         self.fmgURL = os.getenv("FMG_URL")
 
 
-        f = open ('alertsCollectionModel.json', "r")
-        self.alertsModels = json.loads(f.read())
-
 
 
 
@@ -64,7 +61,7 @@ class AlertThreads:
         alert = params.get('alert', 'invalid')
 
         if(alert['name'] == "invalid"):
-            print('Alert type error')
+            logging.warning(' Unknow alert name')
         
         elif(alert['name'] == "new_high"):
             return self.__new_high_alert(params)
@@ -142,13 +139,15 @@ class AlertThreads:
 
                 self.alertsCollection.find_one_and_update({'ticker':stock['ticker'] }, {'$set': updatedtickerDoc}, upsert=True)
             else:
-                print('error reading current ticker data')
+                logging.warning(' Cannot read ticker  %s data while processing new high alert' %stock['ticker'])
                 return self.response_404
 
             return self.response_200
 
         except Exception as e:
-            print('Error processing ticker with ticker ', e)
+            stock = params['stock']
+            logging.error(' Error proccessing new high alert for ticker %s ' %stock['ticker'])
+            #print('Error processing ticker with ticker ', e)
             return self.response_404
 
 
@@ -204,14 +203,17 @@ class AlertThreads:
 
                 self.alertsCollection.find_one_and_update({'ticker':stock['ticker'] }, {'$set': updatedtickerDoc}, upsert=True)
             else:
-                print('error reading current ticker data')
+                # print('error reading current ticker data')
+                logging.warning(' Cannot read ticker %s data while processing new low alert!' %stock['ticker'])
                 return self.response_404
 
 
             return self.response_200
             
         except Exception as e:
-            print('Error processing ticker with ticker ', e)
+            # print('Error processing ticker with ticker ', e)
+            stock = params['stock']
+            logging.error(' Error proccessing new low alert for ticker %s ' %stock['ticker'])
             return self.response_404
 
 
@@ -228,7 +230,9 @@ class AlertThreads:
             return self.response_200
             
         except Exception as e:
-            print('Error processing ticker with ticker ', e)
+            # print('Error processing ticker with ticker ', e)
+            stock = params['stock']
+            logging.error(' Error proccessing new high ask alert for ticker %s ' %stock['ticker'])
             return self.response_404
 
 
@@ -245,7 +249,10 @@ class AlertThreads:
             return self.response_200
             
         except Exception as e:
-            print('Error processing ticker with ticker ', e)
+            # print('Error processing ticker with ticker ', e)
+
+            stock = params['stock']
+            logging.error(' Error proccessing new low ask alert for ticker %s ' %stock['ticker'])
             return self.response_404
 
 
@@ -261,7 +268,10 @@ class AlertThreads:
             return self.response_200
             
         except Exception as e:
-            print('Error processing ticker with ticker ', e)
+            # print('Error processing ticker with ticker ', e)
+
+            stock = params['stock']
+            logging.error(' Error proccessing new high bid alert for ticker %s ' %stock['ticker'])
             return self.response_404
 
 
@@ -277,7 +287,10 @@ class AlertThreads:
             return self.response_200
             
         except Exception as e:
-            print('Error processing ticker with ticker ', e)
+            # print('Error processing ticker with ticker ', e)
+
+            stock = params['stock']
+            logging.error(' Error proccessing new low bid alert for ticker %s ' %stock['ticker'])
             return self.response_404
 
 
@@ -302,7 +315,10 @@ class AlertThreads:
             return self.response_200
             
         except Exception as e:
-            print('Error processing ticker with ticker ', e)
+            # print('Error processing ticker with ticker ', e)
+
+            stock = params['stock']
+            logging.error(' Error proccessing bollinger band alert for ticker %s ' %stock['ticker'])
             return self.response_404
 
 
