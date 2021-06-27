@@ -7,6 +7,7 @@ import os
 import requests
 import json
 
+
 import numpy as np
 
 import pandas as pd
@@ -24,7 +25,11 @@ import datetime
 import time
 
 
-
+import logging
+reportPath=os.path.dirname(__file__)
+reportFile=reportPath+'/lstm_forecasting.log' if len(reportPath)>0 else 'lstm_forecasting.log'
+logging.basicConfig(filename=reportFile, format='%(asctime)s  [ %(levelname)s ]  %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
+logging.info(' LSTM forecasting has been started!')
 
 
 
@@ -138,7 +143,9 @@ def processForecasting(item,tickerHistory):
 
 
     except Exception as e:
-        print('Error processing ticker with symbol  and reason is ', e)
+        # print('Error processing ticker with symbol  and reason is ', e)
+        logging.warning(' Exception thrown while training LSTM model for %s ' %item['ticker'])
+
         return {
             "status":"error",
             "error":e
@@ -153,19 +160,11 @@ mostGainersResponse = requests.get(url+"gainers?apikey="+apiKey)
 mostGainersTickers = mostGainersResponse.json()
 
 
-
-
 for item in mostGainersTickers:
     tickerHistoryResponse = requests.get(url+"historical-price-full/"+item['ticker']+"?apikey="+apiKey)    
     result = processForecasting(item, tickerHistoryResponse.json())
-    if(result['status'] != "success"):
-        errorDate = datetime.datetime.now()
-        report = '%s  -  Error processing ticker forecasting for %s \n' %(errorDate, item['ticker'])
-        file_object = open('lstm_forecasting.log', 'a')
-        file_object.write(report)
-        file_object.close()
 
 
-
+logging.info(' LSTM forecasting finished!')
 
 
