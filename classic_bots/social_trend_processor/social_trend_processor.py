@@ -7,6 +7,7 @@ from datetime import datetime
 import time
 import requests
 import json
+import logging
 
 import os
 from dotenv import load_dotenv
@@ -33,23 +34,19 @@ client = MongoClient(mongoURL)
 db = client[dbName]
 socialColl = db[social_coll]
 
+import logging
 
+scriptAbsPath=os.path.dirname(__file__)
+reportFile=scriptAbsPath+'/social_trend_processor.log' if len(scriptAbsPath) > 0 else 'social_trend_processor.log'
+
+logging.basicConfig(filename=reportFile, format='%(asctime)s  [ %(levelname)s ]  %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
+logging.info(' Social Trends processor has been started!')
 
 def populate_social_trends():
     try:
 # TODO:
-# + Read social trend API and save data into a big bang model collection
-# 	document model {
-#		"ticker":"",
-#		"name":"",
-#		"score":"",
-#		"direction":"",
-#		"average day/week":"",
-#		"last_updated":""
-# 	}
-#
-#
 # + Read sentiment from multiple sources
+
 
         response = requests.request("GET", ssURL+"stocks/trending/twitter/", headers=headers)
         # response = requests.request("GET", ssURL+"stocks/trending/reddit/", headers=headers)
@@ -58,7 +55,7 @@ def populate_social_trends():
             socialTrendData = json.loads(response.content)
 
             if( len(socialTrendData) == 0 ):
-                print(" Empty Array from API!!! ")
+                logging.warning('Empty api request returned!')
 
             for item in socialTrendData:
                 itemResponse = requests.request("GET", ssURL+"stocks/"+item['stock']+"/sentiment/daily/", headers=headers)
@@ -84,12 +81,12 @@ def populate_social_trends():
                     }
 
                     socialColl.find_one_and_update({'ticker':item['stock']}, {'$set':itemDocument}, upsert=True)
-                    print(" Social trend for stock %s has been processed " %(item['stock']))
+                    logging.info(" Social trend for stock %s has been processed " %(item['stock']) )
+                    #print(" Social trend for stock %s has been processed " %(item['stock']))
                 else:
-                    print('!!!Cant fetch daily sentiment for ticker %s !!!' %(item['stock']))
-                    saveReport('!!!Cant fetch daily sentiment for ticker %s !!!' %(item['stock']))
-                    # raise Exception('!!!Cant fetch daily sentiment for ticker %s !!!' %(item['stock']))
-                    # report erro and continue to nenxt ticker item
+                    #print('!!!Cant fetch daily sentiment for ticker %s !!!' %(item['stock']))
+                    logging.warning('Cant fetch daily sentiment for ticker %s ' %(item['stock']))
+
 
         else:
             raise Exception('!!!Cant fetch 3rd party api!!!')
@@ -98,21 +95,13 @@ def populate_social_trends():
         
     except Exception as e:
         # print('Error processing ticker with ticker ', ticker , "  and reason is ", e)
-        print('Error processing social trends ', e)
-        saveReport('Error processing social trends ')
+        # print('Error processing social trends ', e)
+        logging.error(' Exception thrown - Error processing social trends ')
+
         
 
 
 
-
-
-
-def saveReport(report):
-    reportDate = datetime.datetime.now()
-    logReport = '%s  - %s \n' %(reportDate, report)
-    file_object = open('social_trend_processor.log', 'a')
-    file_object.write(logReport)
-    file_object.close()
-
-
 populate_social_trends()
+
+logging.info(' Social Trends processor finished!')
