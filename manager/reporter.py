@@ -16,7 +16,6 @@ logging.info(' Reporter has been started!')
 def run():
     #print(" Reporter is processing....")
     logging.info(" Am logging for every minute")
-    logging.warning(" ops am running forever every 1 minute")
     print(' reporter os rruning ')
     
 
