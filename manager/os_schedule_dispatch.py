@@ -20,8 +20,8 @@ class TaskScheduler:
     def getCurrentSchedule(self):
         print(" to read already scheduled tasks when needed  ")
 
-    def set(self, task):
 
+    def set(self, task):
         script = task.get('script', "")
         time = task.get('time', "")
         folder = os.getenv("OS_TASK_SCHEDULER")
@@ -64,14 +64,16 @@ class TaskScheduler:
                 return
 
             commandStr='python3 %s' %path
+            job = cron.new(command=commandStr, comment=name)
 
             if(frequency == "DAILY"):
-                job = cron.new(command=commandStr, comment=name)
-                job.day.on(int(time))
+                hour, minute = time.split(':')
+                job.day.every(1)
+                job.hour.on(hour)
+                job.minute.on(minute)
 
             elif(frequency == "MINUTE"):
-                job = cron.new(command=commandStr, comment=name)
-                job.minute.every(int(frequencySize))
+                job.minute.every(frequencySize)
 
             cron.write()
             print('cron for %s was scheduled')
