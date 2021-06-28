@@ -1,5 +1,20 @@
 import os
 
+from crontab import CronTab
+cron = CronTab(user='root')
+
+
+
+job = cron.new(command="python3 ", comment='testy cron')
+job.day.on(int(time))
+
+
+
+
+python3 /home/techyoob/Documents/stock_workspace/big_bang_trading_screener/manager/reporter.py
+
+
+
 def find_files(filename, search_path):
    result = []
 
