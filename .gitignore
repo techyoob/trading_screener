@@ -2,7 +2,7 @@
 classic_bots/alerts_processor/.env
 classic_bots/candlestick_patterns_classifier/.env
 classic_bots/social_trend_processor/.env
-~/.vscode-root/
+~/.vscode-root
 classic_bots/stock_list_populator/.env
 ~/.vscode-root/Network Persistent State
 ~/.vscode-root/TransportSecurity
@@ -13,3 +13,10 @@ ai_bots/lstm_forecasting/.env
 backend/screener_api_flask/__pycache__/
 ~/.vscode-root/Cache/index-dir/the-real-index
 ~/.vscode-root/Cache/index-dir/the-real-index
+ai_bots/lstm_forecasting/lstm_forecasting.log
+classic_bots/alerts_processor/alerts_processor.log
+classic_bots/candlestick_patterns_classifier/candlestick_patterns_classifier.log
+classic_bots/social_trend_processor/social_trend_processor.log
+classic_bots/stock_list_populator/ticker_list_populator.log
+manager/screener_report.log
+classic_bots/alerts_processor/__pycache__/alertThreads.cpython-36.pyc
