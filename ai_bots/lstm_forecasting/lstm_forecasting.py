@@ -14,8 +14,8 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
 import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM,Dense, Dropout
+from tensorflow.python.keras.models import Sequential
+from tensorflow.python.keras.layers import LSTM,Dense, Dropout
 
 from dotenv import load_dotenv
 load_dotenv()
