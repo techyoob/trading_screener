@@ -20,3 +20,5 @@ classic_bots/social_trend_processor/social_trend_processor.log
 classic_bots/stock_list_populator/ticker_list_populator.log
 manager/screener_report.log
 classic_bots/alerts_processor/__pycache__/alertThreads.cpython-36.pyc
+classic_bots/historical_prices_collector/historical_prices_collector.log
+classic_bots/historical_prices_collector/.env

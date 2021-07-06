@@ -41,10 +41,15 @@ mongoURL = os.getenv("DB_URL")
 dbName = os.getenv("DB_NAME")
 alertsCollectionName = os.getenv("ALERTS_COLL")
 stocksCollectionName =  os.getenv("TICKERS_COLL")
+historicalPriceStr = os.getenv("HISTORICAL_PRICE_COLLECTION")
 
 db=MongoClient(mongoURL)[dbName]
 alertsCollection=db[alertsCollectionName]
 stocksCollection=db[stocksCollectionName]
+
+historical_price_collection = db[historicalPriceStr]
+
+
 
 alerts = json.load(open(alertsModelsFile,  "r"))
 
@@ -128,13 +133,24 @@ def analyzeAlerts(params):
         stock = params['stock']
         tickerAlertsCursor = alertsCollection.find_one( {"ticker":stock['ticker']} )
 
-        tickerHistoryResponse = requests.get(fmgURL+"historical-price-full/"+stock['ticker']+"?apikey="+fmgKey)
-        historicalArr = tickerHistoryResponse.json().get('historical', [])
+
+        historicalCursor = historical_price_collection.find_one({'ticker':stock['ticker']},{"_id":0, "historical":1,})
+        historicalArr=[]
+
+        if historicalCursor == None:
+            tickerHistoryResponse = requests.get(fmgURL+"historical-price-full/"+stock['ticker']+"?apikey="+fmgKey)
+            historicalArr = tickerHistoryResponse.json().get('historical', [])
+
+        else:
+            historicalArr = historicalCursor.get("historical", [])
+            
 
         if(len(historicalArr)>0):
             historicalDf = pd.DataFrame(historicalArr)
             params['historicalDf']=historicalDf
-
+        else:
+            logging.warning(" Cannot get historical price data for %s" %stock['ticker'])
+           
 
         tickerCurrentResponse = requests.get(fmgURL+"quote/"+stock['ticker']+"?apikey="+fmgKey)
         tickerCurrentJson = tickerCurrentResponse.json()
