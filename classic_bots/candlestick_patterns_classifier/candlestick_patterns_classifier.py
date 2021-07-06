@@ -26,13 +26,18 @@ reportFile=scriptAbsPath+'/candlestick_patterns_classifier.log' if len(scriptAbs
 logging.basicConfig(filename=reportFile, format='%(asctime)s  [ %(levelname)s ]  %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
 logging.info(' Candlestick patterns classifier has been started!')
 
+mongoURL = os.getenv("DB_URL")
+dbName = os.getenv("DB_NAME")
+tickersStr = os.getenv("TICKERS_COLLECTION")
+historicalPriceStr = os.getenv("HISTORICAL_PRICE_COLLECTION")
+fmgURL = os.getenv("FMG_URL")
+fmgKEY = os.getenv("FMG_KEY")
 
-apiKey = os.getenv("FMG_KEY")
-url = os.getenv("FMG_URL")
 
-
-client = MongoClient('mongodb://localhost:27017/')
-db = client['big_bang']
+client = MongoClient(mongoURL)
+db = client[dbName]
+tickers_collection = db[tickersStr]
+historical_price_collection = db[historicalPriceStr]
 
 
 tickers_list_collection = db['tickers_list']
@@ -43,9 +48,9 @@ patterns_collection = db['candle_patterns']
 
 
 
-def processCandlePatternsAnalysis(item, tickerHistory):
+def processCandlePatternsAnalysis(item, tickerHistoryArr):
     try:
-        df = pd.DataFrame(tickerHistory['historical'][::-1])
+        df = pd.DataFrame(tickerHistoryArr[::-1])
 
         patterns_analysis_collection = db['candlestick_patterns_analysis_list']
         patternsCount = patterns_collection.count_documents({})
@@ -133,13 +138,25 @@ def run(loadPatterns):
         generatePatterns()
 
     for item in tickers_list_collection.find():
-        tickerHistoryResponse = requests.get(url+"historical-price-full/"+item['ticker']+"?apikey="+apiKey)    
-        result = processCandlePatternsAnalysis(item, tickerHistoryResponse.json())
+        historicalCursor = historical_price_collection.find_one({'ticker':item['ticker']},{"_id":0, "historical":1,})
+        historicalArr=[]
+
+        if historicalCursor == None:
+            tickerHistoryResponse = requests.get(fmgURL+"historical-price-full/"+item['ticker']+"?apikey="+fmgKey)
+            historicalArr = tickerHistoryResponse.json().get('historical', [])
+
+        else:
+            historicalArr = historicalCursor.get("historical", [])
+            
+
+        if(len(historicalArr)==0):
+            logging.warning(" Cannot get historical pricese for %s " %item['ticker'])
+            continue
+
+        result = processCandlePatternsAnalysis(item, historicalArr)
         if(result['status'] != "success"):
             logging.warning('Failed to process candlestick patterns for %s' %item['ticker'])
             
-
-    logging.info(f'Candlestick patterns classifier finished')
 
 
 
@@ -151,4 +168,10 @@ if __name__ == "__main__":
     if sys.argv[1:]:
         loadPatterns = True if sys.argv[1] == 'patterns' else False
        
+
+
+    processorTic = time.perf_counter()
     run(loadPatterns)
+    processorToc = time.perf_counter()
+    logging.info(f' Candlestick patterns classifier finished in {processorToc - processorTic:0.4f} seconds!!')
+    

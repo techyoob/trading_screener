@@ -40,7 +40,7 @@ tickers_collection = db[tickersStr]
 historical_price_collection = db[historicalPriceStr]
 
 
-class AlertProcessingWorker(Thread):
+class HistoricalProcessingWorker(Thread):
 
     def __init__(self, queue):
         Thread.__init__(self)
@@ -105,7 +105,7 @@ def collect():
                         "stock":stock
                     }
 
-                    worker = AlertProcessingWorker(queue)
+                    worker = HistoricalProcessingWorker(queue)
                     worker.daemon = True
                     worker.start()
                     queue.put(params)
