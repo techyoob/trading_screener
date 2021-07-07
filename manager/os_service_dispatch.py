@@ -39,7 +39,7 @@ class ServiceCreator:
                     desc=name,
                     pkg="/usr/bin/python3",
                     absPathScript=absPathScript,
-                    user="root"
+                    user="customer"
                 )
         
         self.create_service(name, unitConfig)

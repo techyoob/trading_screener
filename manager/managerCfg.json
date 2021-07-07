@@ -51,7 +51,7 @@
             "script":"alerts_processor.py"
         },
         {
-            "name":"History LSTM Predictor",
+            "name":"LSTM History Predictor",
             "rpath":"../ai_bots/lstm_forecasting/",
             "frequency":"DAILY",
             "frequency_size":"1",
@@ -64,7 +64,7 @@
             "name":"Reporter",
             "rpath":"./",
             "frequency":"MINUTE",
-            "frequency_size":"5",
+            "frequency_size":"15",
             "date":"",
             "time":"",
             "run":"D:\\screener_project\\manager\\run.bat",
