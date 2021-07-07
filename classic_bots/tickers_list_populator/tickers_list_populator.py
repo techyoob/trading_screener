@@ -15,10 +15,10 @@ load_dotenv()
 import logging
 
 scriptAbsPath=os.path.dirname(__file__)
-reportFile=scriptAbsPath+'/ticker_list_populator.log' if len(scriptAbsPath) > 0 else 'ticker_list_populator.log'
+reportFile=scriptAbsPath+'/tickers_list_populator.log' if len(scriptAbsPath) > 0 else 'tickers_list_populator.log'
 
 logging.basicConfig(filename=reportFile, format='%(asctime)s  [ %(levelname)s ]  %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
-logging.info(' USA market ticker list populator has been started!')
+logging.info(' USA market tickers list populator has been started!')
 
 mongoURL = os.getenv("DB_URL")
 dbName = os.getenv("DB_NAME")
@@ -64,4 +64,4 @@ def populate():
 
 populate()
 
-logging.info(' Ticker list populator finished!')
+logging.info(' Tickers list populator finished!')
