@@ -1,25 +1,38 @@
 {
     "tasks":[
         {
-            "name":"Social Trend Bot",
-            "frequency":"DAILY",
+            "name":"Tickers List Populator",
+            "rpath":"../classic_bots/big_bang_list_populator/",
+            "frequency":"ONCE",
             "frequency_size":"1",
             "date":"",
             "time":"06:00",
+            "run":"D:\\screener_project\\classic_bots\\big_bang_list_populator\\run.bat",
+            "script":"big_bang_list_populator.py"
+        },
+        {
+            "name":"Historical Prices Collector",
+            "rpath":"../classic_bots/historical_prices_collector/",
+            "frequency":"DAILY",
+            "frequency_size":"1",
+            "date":"",
+            "time":"04:00",
+            "run":"D:\\screener_project\\classic_bots\\historical_prices_collector\\run.bat",
+            "script":"historical_prices_collector.py"
+        },
+        {
+            "name":"Social Trend Processor",
+            "rpath":"../classic_bots/social_trend_processor/",
+            "frequency":"DAILY",
+            "frequency_size":"1",
+            "date":"",
+            "time":"05:00",
             "run":"D:\\screener_project\\classic_bots\\social_trend_processor\\run.bat",
             "script":"social_trend_processor.py"
         },
         {
-            "name":"History LSTM Bot",
-            "frequency":"DAILY",
-            "frequency_size":"1",
-            "date":"",
-            "time":"20:00",
-            "run":"D:\\screener_project\\ai_bots\\lstm_forecasting\\run.bat",
-            "script":"lstm_predictor.py"
-        },
-        {
-            "name":"Candlestick Patterns Analysis",
+            "name":"Candlestick Patterns Analyzer",
+            "rpath":"../classic_bots/candlestick_patterns_classifier/",
             "frequency":"DAILY",
             "frequency_size":"1",
             "date":"",
@@ -28,37 +41,51 @@
             "script":"candlestick_patterns_classifier.py"
         },
         {
-            "name":"Alerts Analysis",
+            "name":"Alerts Analyzer",
+            "rpath":"../classic_bots/alerts_processor/",
             "frequency":"DAILY",
             "frequency_size":"1",
             "date":"",
-            "time":"1:00",
+            "time":"13:00",
             "run":"D:\\screener_project\\classic_bots\\alerts_processor\\run.bat",
             "script":"alerts_processor.py"
         },
         {
+            "name":"History LSTM Predictor",
+            "rpath":"../ai_bots/lstm_forecasting/",
+            "frequency":"DAILY",
+            "frequency_size":"1",
+            "date":"",
+            "time":"20:00",
+            "run":"D:\\screener_project\\ai_bots\\lstm_forecasting\\run.bat",
+            "script":"lstm_forecasting.py"
+        },
+        {
             "name":"Reporter",
+            "rpath":"./",
             "frequency":"MINUTE",
-            "frequency_size":"10",
+            "frequency_size":"5",
             "date":"",
             "time":"",
-            "run":"D:\\screener_project\\classic_bots\\alerts_processor\\run.bat",
+            "run":"D:\\screener_project\\manager\\run.bat",
             "script":"reporter.py"
         }
     ],
     "services":[
         {
-            "name":"Back End",
+            "name":"screenerapi",
+            "rpath":"../backend/big_bang_screener_api_flask/",
             "frequency":"ONCE",
             "frequency_size":"",
             "date":"",
             "time":"now",
             "run":"D:\\screener_project\\backend\\big_bang_screener_api_flask\\run.bat",
-            "script":"flask api"
+            "script":"screener_api.py"
         },
         {
-            "name":"Front End",
-            "frequency":"ONCE",
+            "name":"screenerui",
+            "rpath":"../frontend/big_bang_screener_ui_react/",
+            "frequency":"NONE",
             "frequency_size":"",
             "date":"",
             "time":"now",

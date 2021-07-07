@@ -28,17 +28,16 @@ logging.info(' Candlestick patterns classifier has been started!')
 
 mongoURL = os.getenv("DB_URL")
 dbName = os.getenv("DB_NAME")
+client = MongoClient(mongoURL)
+db = client[dbName]
+
 tickersStr = os.getenv("TICKERS_COLLECTION")
 historicalPriceStr = os.getenv("HISTORICAL_PRICE_COLLECTION")
 fmgURL = os.getenv("FMG_URL")
 fmgKEY = os.getenv("FMG_KEY")
 
-
-client = MongoClient(mongoURL)
-db = client[dbName]
 tickers_collection = db[tickersStr]
 historical_price_collection = db[historicalPriceStr]
-
 
 tickers_list_collection = db['tickers_list']
 patterns_collection = db['candle_patterns']

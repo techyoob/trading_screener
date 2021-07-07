@@ -30,7 +30,11 @@ class TaskScheduler:
         run = task.get('run', "")
         frequency = task.get('frequency', "")
         frequencySize = task.get('frequency_size', "")
-        
+
+        if(frequency == "ONCE"):
+            logging.warning(" Script %s has no schedule!" %script)
+            return
+
         if platform.system() == 'Windows':
 
             # taskParam = "/create" if time!="now" else "/run "
@@ -53,15 +57,20 @@ class TaskScheduler:
 
 
         if platform.system() == 'Linux':
-            from crontab import CronTab
-            cron = CronTab(user='root')
-            # for job in cron:
-            #     print(job)
+
 
             path=self.__getScriptPath(script)
             if(path==None):
                 logging.warning(" Script %s was not found" %script)
                 return
+
+
+            from crontab import CronTab
+            cron = CronTab(user='root')
+
+            existingJobs = cron.find_comment(name)
+            for job in existingJobs:
+                cron.remove(job)
 
             commandStr='python3 %s' %path
             job = cron.new(command=commandStr, comment=name)
@@ -76,14 +85,13 @@ class TaskScheduler:
                 job.minute.every(frequencySize)
 
             cron.write()
-            print('cron for %s was scheduled')
+            print('Cron for %s was scheduled' %name)
+         
+
          
 
     def __getOSTaskSchedule(self):
         print(" am here at __getOSTaskSchedule ")
-
-
-
 
 
     def __getScriptPath(self,filename):
