@@ -70,17 +70,17 @@ class ServiceCreator:
 
     def get_service_file_template(self):
         return """[Unit]
-                Description={desc}
-                After=network.target
-                [Service]
-                ExecStart={pkg} {absPathScript}
-                StandardOutput=inherit
-                StandardError=inherit
-                Restart=always
-                User={user}
-                [Install]
-                WantedBy=multi-user.target
-                """
+Description={desc}
+After=network.target
+[Service]
+ExecStart={pkg} {absPathScript}
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User={user}
+[Install]
+WantedBy=multi-user.target
+"""
 
 
 
