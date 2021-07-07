@@ -68,7 +68,7 @@ class HistoricalProcessingWorker(Thread):
                         "historical":historicalArr,
                         "updated": datetime.datetime.utcnow()}
 
-            historical_price_collection.find_one_and_update({'name': name, 'ticker':ticker}, {'$set':historicalDoc}, upsert=True)
+            historical_price_collection.find_one_and_update({'ticker':ticker}, {'$set':historicalDoc}, upsert=True)
 
         finally:
             self.queue.task_done()

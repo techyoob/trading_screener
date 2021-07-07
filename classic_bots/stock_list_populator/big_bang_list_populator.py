@@ -50,7 +50,7 @@ def populate():
                                 "list_category":[],
                                 "updated": datetime.datetime.utcnow()}
 
-                        tickers_collection.find_one_and_update({'name': row[1], 'ticker':row[0]}, {'$set':ticker}, upsert=True)
+                        tickers_collection.find_one_and_update({'ticker':row[0]}, {'$set':ticker}, upsert=True)
                         #print(" ticker added with symbol ", row[0])
                         # logging.info( " Ticker with symbol %s was added ", row[0] )
 
