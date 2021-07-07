@@ -2,13 +2,13 @@
     "tasks":[
         {
             "name":"Stocks List Populator",
-            "rpath":"../classic_bots/stocks_list_populator/",
+            "rpath":"../classic_bots/tickers_list_populator/",
             "frequency":"ONCE",
             "frequency_size":"1",
             "date":"",
             "time":"06:00",
-            "run":"D:\\screener_project\\classic_bots\\stock_list_populator\\run.bat",
-            "script":"big_bang_list_populator.py"
+            "run":"D:\\screener_project\\classic_bots\\tickers_list_populator\\run.bat",
+            "script":"tickers_list_populator.py"
         },
         {
             "name":"Historical Prices Collector",
