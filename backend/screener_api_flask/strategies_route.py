@@ -5,7 +5,7 @@ import talib
 import pandas as pd
 from pymongo import MongoClient
 from io import StringIO
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 import time
 import requests
 import json
@@ -14,6 +14,7 @@ from bson.json_util import dumps
 import os
 from dotenv import load_dotenv
 load_dotenv()
+today = date.today()
 
 
 class StrategyRequest:
@@ -56,7 +57,7 @@ class StrategyRequest:
 
         if(strategy == "big_bang"):
             return self. __get_big_bang()
-
+        
         if(strategy == "patterns_analysis"):
             return self.__get_candlestick_patterns_analysis()
 
@@ -106,7 +107,6 @@ class StrategyRequest:
 
 
         try:
-
             filter=self.params.get('filter')
 
             if(filter == "top50"):
@@ -134,7 +134,7 @@ class StrategyRequest:
 
                 results = list(mergedArray)
                                 
-                last_updated = date.today().strftime("%d/%m/%Y %H:%M")
+                last_updated = today.strftime("%d/%m/%Y %H:%M")
      
 
                 return {
@@ -160,18 +160,16 @@ class StrategyRequest:
             if(filter == "top30"):
                                 
                 collection = os.getenv("SOCIAL_TREND_COLLECTION")
-                startDate = date.today() - timedelta(days=1)
-                startDateStr = startDate.strftime("%Y-%m-%d")
+                recentTrend = today.strftime("%Y-%m-%d")
 
                 # recentTrend=datetime(2021, 4, 16).strftime("%Y-%m-%d")
 
-                social_trend_cursor = self.db[collection].find({'date':{ '$gte': startDateStr}}).limit(50)            
+                social_trend_cursor = self.db[collection].find({'date':recentTrend}).limit(50)            
 
                 social_trend_str = dumps(list(social_trend_cursor))
                 social_trend_list = json.loads(social_trend_str)
 
-                last_updated = date.today().strftime("%d/%m/%Y %H:%M")
-
+                last_updated = today.strftime("%d/%m/%Y %H:%M")
 
                 return {
                     "status":200,
@@ -221,7 +219,7 @@ class StrategyRequest:
 
                 results = list(aggregateGainerTickersResult)
 
-                last_updated = date.today().strftime("%d/%m/%Y %H:%M")
+                last_updated = today.strftime("%d/%m/%Y %H:%M")
 
                 return {
                     "status":200,
@@ -279,7 +277,7 @@ class StrategyRequest:
 
                 results = list(aggregateLoserTickersResult)
 
-                last_updated = date.today().strftime("%d/%m/%Y %H:%M")
+                last_updated = today.strftime("%d/%m/%Y %H:%M")
 
                 return {
                     "status":200,
@@ -341,7 +339,7 @@ class StrategyRequest:
                 results = list(aggrActiveTickersResult)
 
                 
-                last_updated = date.today().strftime("%d/%m/%Y %H:%M")
+                last_updated = today.strftime("%d/%m/%Y %H:%M")
 
                 return {
                     "status":200,
@@ -397,7 +395,7 @@ class StrategyRequest:
                 mergedArray = map(mapBullBearArrays, top_bulls_cursor, top_bears_cursor)
                 results = list(mergedArray)
                 
-                last_updated = date.today().strftime("%d/%m/%Y %H:%M")
+                last_updated = today.strftime("%d/%m/%Y %H:%M")
      
 
                 return {

@@ -14,7 +14,7 @@ from bson.json_util import dumps
 import os
 from dotenv import load_dotenv
 load_dotenv()
-
+today = date.today()
 
 
 class AlertRequest:
@@ -77,6 +77,9 @@ class AlertRequest:
         if(alert == "new low bid"):
             return self.__get_new_low_bid()
 
+        if(alert == "bollinger bands"):
+            return self.__get_bollinger_bands()
+
         return self.response_404
 
 
@@ -100,7 +103,7 @@ class AlertRequest:
                 # TODO:
                 # Uncomment below for real results
 
-                newHighListCursor = self.db[alertsAnalysisColl].find( {'new_high.price_date':{ "$gte": startDate }}, {"_id":0, "new_high":1, "name":1, "ticker":1} )
+                newHighListCursor = self.db[alertsAnalysisColl].find( {'new_high.price_date':{ "$gte": startDate }}, {"_id":0, "new_high":1, "name":1, "ticker":1}).limit(50)
 
                 newHighListStr = dumps(list(newHighListCursor))
                 new_high_list = json.loads(newHighListStr)
@@ -115,7 +118,7 @@ class AlertRequest:
             elif(filter == "all"):
 
                 alertsAnalysisColl = os.getenv("ALERTS_ANALYSIS_COLLECTION")
-                newHighListCursor = self.db[alertsAnalysisColl].find({}, {"_id":0, "new_high":1, "name":1, "ticker":1})
+                newHighListCursor = self.db[alertsAnalysisColl].find({}, {"_id":0, "new_high":1, "name":1, "ticker":1}).limit(50)
              
                 newHighListStr = dumps(list(newHighListCursor))
                 new_high_list = json.loads(newHighListStr)
@@ -148,7 +151,7 @@ class AlertRequest:
                 startDate = startDate.strftime('%Y-%m-%d')
 
                 # newHighListCursor = self.db[alertsAnalysisColl].find( {'new_high.last_updated':{"$gte": startDate}} )
-                newLowListCursor = self.db[alertsAnalysisColl].find( {'new_low.price_date':{ "$gte": startDate }}, {"_id":0, "new_low":1, "name":1, "ticker":1} )
+                newLowListCursor = self.db[alertsAnalysisColl].find( {'new_low.price_date':{ "$gte": startDate }}, {"_id":0, "new_low":1, "name":1, "ticker":1} ).limit(50)
              
                 newLowListStr = dumps(list(newLowListCursor))
                 new_low_list = json.loads(newLowListStr)
@@ -164,7 +167,7 @@ class AlertRequest:
             elif(filter == "all"):
 
                 alertsAnalysisColl = os.getenv("ALERTS_ANALYSIS_COLLECTION") 
-                newLowListCursor = self.db[alertsAnalysisColl].find({}, {"_id":0, "new_high":1, "name":1, "ticker":1})
+                newLowListCursor = self.db[alertsAnalysisColl].find({}, {"_id":0, "new_low":1, "name":1, "ticker":1}).limit(50)
 
                 newLowListStr = dumps(list(newLowListCursor))
                 new_low_list = json.loads(newLowListStr)
@@ -414,6 +417,55 @@ class AlertRequest:
                 return {
                     "status":200,
                     "results":"__get_new_low",
+                    "last_updated":last_updated
+                }
+
+            else:
+                raise Exception('Wrong filter name')
+            
+        except Exception as e:
+            # print('Error processing ticker with ticker ', ticker , "  and reason is ", e)
+            print('Error processing ticker with ticker ', e)
+            return self.response_404
+
+
+    def __get_bollinger_bands(self):
+        try:
+            print(" am at __get_bollinger_bands")
+            filter=self.params.get('filter')
+
+            if(filter == "something"):
+
+                alertsAnalysisColl = os.getenv("ALERTS_ANALYSIS_COLLECTION")
+                currentDate = date.today().strftime('%Y-%m-%d')
+                BollingerBandsListCursor = self.db[alertsAnalysisColl].find( {'bollinger_bands.signal_date':{ "$eq": currentDate }}, {"_id":0, "bollinger_bands":1, "name":1, "ticker":1} )
+             
+                BollingerBandsListStr = dumps(list(BollingerBandsListCursor))
+                bollinger_bands_list = json.loads(BollingerBandsListStr)
+                last_updated = datetime.now().strftime("%d-%m-%Y %H:%M")
+     
+
+                return {
+                    "status":200,
+                    "results":bollinger_bands_list,
+                    "last_updated":last_updated
+                }
+
+            elif(filter == "all"):
+
+                alertsAnalysisColl = os.getenv("ALERTS_ANALYSIS_COLLECTION")
+                currentDate = date.today().strftime('%Y-%m-%d')
+                BollingerBandsListCursor = self.db[alertsAnalysisColl].find( {'bollinger_bands':{ "$exists": True }}, {"_id":0, "bollinger_bands":1, "name":1, "ticker":1} ).limit(50)
+             
+             
+                BollingerBandsListStr = dumps(list(BollingerBandsListCursor))
+                bollinger_bands_list = json.loads(BollingerBandsListStr)
+                last_updated = datetime.now().strftime("%d-%m-%Y %H:%M")
+     
+
+                return {
+                    "status":200,
+                    "results":bollinger_bands_list,
                     "last_updated":last_updated
                 }
 

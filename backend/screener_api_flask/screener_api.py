@@ -285,12 +285,6 @@ def api_screener_header():
 
 
 
-
-
-
-
-
-
 if __name__ == "__main__":
     import logging
     scriptAbsPath=os.path.dirname(__file__)
