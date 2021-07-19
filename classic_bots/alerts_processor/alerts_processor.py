@@ -46,7 +46,6 @@ historicalPriceStr = os.getenv("HISTORICAL_PRICE_COLLECTION")
 db=MongoClient(mongoURL)[dbName]
 alertsCollection=db[alertsCollectionName]
 stocksCollection=db[stocksCollectionName]
-
 historical_price_collection = db[historicalPriceStr]
 
 
@@ -131,48 +130,41 @@ def analyzeAlerts(params):
     try:
 
         stock = params['stock']
-        tickerAlertsCursor = alertsCollection.find_one( {"ticker":stock['ticker']} )
 
+        historicalDailyCursor = historical_price_collection.find_one({'ticker':stock['ticker']},{"_id":0, "historical":1,})
+        historicalDailyArr=[]
 
-        historicalCursor = historical_price_collection.find_one({'ticker':stock['ticker']},{"_id":0, "historical":1,})
-        historicalArr=[]
-
-        if historicalCursor == None:
+        if historicalDailyCursor == None:
             tickerHistoryResponse = requests.get(fmgURL+"historical-price-full/"+stock['ticker']+"?apikey="+fmgKey)
-            historicalArr = tickerHistoryResponse.json().get('historical', [])
+            historicalDailyArr = tickerHistoryResponse.json().get('historical', [])
+
+            historicalDoc = {"ticker": stock['ticker'],
+            "name": stock['name'],
+            "historical":historicalDailyArr,
+            "updated": datetime.datetime.utcnow()}
+
+            historical_price_collection.find_one_and_update({'ticker':stock['ticker']}, {'$set':historicalDoc}, upsert=True)
 
         else:
-            historicalArr = historicalCursor.get("historical", [])
-            
+            historicalDailyArr = historicalDailyCursor.get("historical", [])
 
-        if(len(historicalArr)>0):
-            historicalDf = pd.DataFrame(historicalArr)
-            params['historicalDf']=historicalDf
-        else:
-            logging.warning(" Cannot get historical price data for %s" %stock['ticker'])
-           
-
-        tickerCurrentResponse = requests.get(fmgURL+"quote/"+stock['ticker']+"?apikey="+fmgKey)
-        tickerCurrentJson = tickerCurrentResponse.json()
-        params['tickerCurrentJson']=tickerCurrentJson
+        params['historicalDailyArr']=historicalDailyArr
 
 
+        tickerQuoteResponse = requests.get(fmgURL+"quote/"+stock['ticker']+"?apikey="+fmgKey)
+        tickerQuoteJson = tickerQuoteResponse.json()
+        params['tickerQuoteJson']=tickerQuoteJson
+
+
+        tickerHistory1MinResponse = requests.get(fmgURL+"historical-chart/1min/"+stock['ticker']+"?apikey="+fmgKey)
+        historical1MinArr = tickerHistory1MinResponse.json()
+        params['historical1MinArr']=historical1MinArr
 
 
 
-        for alert in alerts:            
-            currentAlert={}
-            if(tickerAlertsCursor == None):
-                currentAlert = alert.get('current_alert', {}).copy()
-            else:
-                currentAlert=tickerAlertsCursor.get(alert['name'], alert['current_alert'])
 
-            if(len(currentAlert)  < 1):
-                break
-
+        for alert in alerts:
             params['alert']=alert
-            params['currentAlert']=currentAlert
-
             result = at.executeAlert(params)
 
 
@@ -191,14 +183,23 @@ def analyzeAlerts(params):
         }
 
 
+def getHistoricalDailyPrices(stock):
+    print("am daily historical ")
 
+def getHistoricalHourlyPrices(stock):
+    print("am hourly historical ")
+
+def getHistorical1MinPrices(stock):
+    print("am 1 minutes historical ")
+
+def getHistorical15MinPrices(stock):
+    print("am 15 minutes historical ")
 
 
 processorTic = time.perf_counter()
 run_processor()
 processorToc = time.perf_counter()
 logging.info(f' Processor finished in {processorToc - processorTic:0.4f} seconds!')
-
 
 
 

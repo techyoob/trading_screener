@@ -1,7 +1,7 @@
 [
     {
         "name":"new_high",
-        "current_alert":{
+        "model":{
             "price":0,
             "price_date":"",
             "last_updated":"1970-01-01"
@@ -9,7 +9,7 @@
     },
     {
         "name":"new_low",
-        "current_alert":{
+        "model":{
             "price":999999999,
             "price_date":"",
             "last_updated":"1970-01-01"
@@ -18,7 +18,7 @@
     },
     {
         "name":"new_high_ask",
-        "current_alert":{
+        "model":{
             "price":999999999,
             "price_date":"",
             "last_updated":"1970-01-01"
@@ -26,7 +26,7 @@
     },
     {
         "name":"new_low_ask",
-        "current_alert":{
+        "model":{
             "price":999999999,
             "price_date":"",
             "last_updated":"1970-01-01"
@@ -34,7 +34,7 @@
     },
     {
         "name":"new_high_bid",
-        "current_alert":{
+        "model":{
             "price":999999999,
             "price_date":"",
             "last_updated":"1970-01-01"
@@ -42,9 +42,31 @@
     },
     {
         "name":"new_low_bid",
-        "current_alert":{
+        "model":{
             "price":999999999,
             "price_date":"",
+            "last_updated":"1970-01-01"
+            }
+    },
+    {
+        "name":"bollinger_bands",
+        "model":{
+            "signal":"none",
+            "signal_price":0,
+            "signal_date":"",
+            "renewed":0,
+            "last_updated":"1970-01-01"
+            }
+    },
+    {
+        "name":"moving_average",
+        "model":{
+            "sma":"none",
+			"sma_date":"",
+			"sma_price":0,
+            "ema":"none",
+			"ema_price":0,
+			"ema_date":"",
             "last_updated":"1970-01-01"
             }
     }

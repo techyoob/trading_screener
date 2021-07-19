@@ -22,3 +22,4 @@ manager/screener_report.log
 classic_bots/alerts_processor/__pycache__/alertThreads.cpython-36.pyc
 classic_bots/historical_prices_collector/historical_prices_collector.log
 classic_bots/historical_prices_collector/.env
+classic_bots/tickers_list_populator/.env

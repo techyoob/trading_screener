@@ -29,6 +29,7 @@ logging.info(' Candlestick patterns classifier has been started!')
 mongoURL = os.getenv("DB_URL")
 dbName = os.getenv("DB_NAME")
 tickersStr = os.getenv("TICKERS_COLLECTION")
+candlePatternsStr = os.getenv("CANDLE_PATTERNS_COLLECTION")
 historicalPriceStr = os.getenv("HISTORICAL_PRICE_COLLECTION")
 fmgURL = os.getenv("FMG_URL")
 fmgKey = os.getenv("FMG_KEY")
@@ -38,10 +39,7 @@ client = MongoClient(mongoURL)
 db = client[dbName]
 tickers_collection = db[tickersStr]
 historical_price_collection = db[historicalPriceStr]
-
-
-tickers_list_collection = db['tickers_list']
-patterns_collection = db['candle_patterns']
+patterns_collection = db[candlePatternsStr]
 
 
 
@@ -137,7 +135,7 @@ def run(loadPatterns):
     if loadPatterns:
         generatePatterns()
 
-    for item in tickers_list_collection.find():
+    for item in tickers_collection.find():
         historicalCursor = historical_price_collection.find_one({'ticker':item['ticker']},{"_id":0, "historical":1,})
         historicalArr=[]
 
