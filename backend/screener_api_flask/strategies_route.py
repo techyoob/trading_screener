@@ -434,4 +434,3 @@ class StrategyRequest:
             print('Error processing ticker with ticker ', e)
             return self.response_404
 
-

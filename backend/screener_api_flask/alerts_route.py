@@ -80,6 +80,9 @@ class AlertRequest:
         if(alert == "bollinger bands"):
             return self.__get_bollinger_bands()
 
+        if(alert == "moving average"):
+            return self.__get_moving_average()
+
         return self.response_404
 
 
@@ -438,16 +441,18 @@ class AlertRequest:
 
                 alertsAnalysisColl = os.getenv("ALERTS_ANALYSIS_COLLECTION")
                 currentDate = date.today().strftime('%Y-%m-%d')
-                BollingerBandsListCursor = self.db[alertsAnalysisColl].find( {'bollinger_bands.signal_date':{ "$eq": currentDate }}, {"_id":0, "bollinger_bands":1, "name":1, "ticker":1} )
+                bollingerBandsListCursor = self.db[alertsAnalysisColl].find( {'bollinger_bands.signal_date':{ "$eq": currentDate }}, {"_id":0, "bollinger_bands":1, "name":1, "ticker":1} )
              
-                BollingerBandsListStr = dumps(list(BollingerBandsListCursor))
-                bollinger_bands_list = json.loads(BollingerBandsListStr)
+                # bollingerBandsListStr = dumps(list(bollingerBandsListCursor))
+                # bollinger_bands_list = json.loads(bollingerBandsListStr)
+
+                bollingerBandsList=list(bollingerBandsListCursor)
                 last_updated = datetime.now().strftime("%d-%m-%Y %H:%M")
      
 
                 return {
                     "status":200,
-                    "results":bollinger_bands_list,
+                    "results":bollingerBandsList,
                     "last_updated":last_updated
                 }
 
@@ -455,17 +460,78 @@ class AlertRequest:
 
                 alertsAnalysisColl = os.getenv("ALERTS_ANALYSIS_COLLECTION")
                 currentDate = date.today().strftime('%Y-%m-%d')
-                BollingerBandsListCursor = self.db[alertsAnalysisColl].find( {'bollinger_bands':{ "$exists": True }}, {"_id":0, "bollinger_bands":1, "name":1, "ticker":1} ).limit(50)
+                bollingerBandsListCursor = self.db[alertsAnalysisColl].find( {'bollinger_bands':{ "$exists": True }}, {"_id":0, "bollinger_bands":1, "name":1, "ticker":1} ).limit(50)
              
              
-                BollingerBandsListStr = dumps(list(BollingerBandsListCursor))
-                bollinger_bands_list = json.loads(BollingerBandsListStr)
+                # bollingerBandsListStr = dumps(list(bollingerBandsListCursor))
+                # bollinger_bands_list = json.loads(bollingerBandsListStr)
+                bollingerBandsList=list(bollingerBandsListCursor)
                 last_updated = datetime.now().strftime("%d-%m-%Y %H:%M")
      
 
                 return {
                     "status":200,
-                    "results":bollinger_bands_list,
+                    "results":bollingerBandsList,
+                    "last_updated":last_updated
+                }
+
+            else:
+                raise Exception('Wrong filter name')
+            
+        except Exception as e:
+            # print('Error processing ticker with ticker ', ticker , "  and reason is ", e)
+            print('Error processing ticker with ticker ', e)
+            return self.response_404
+
+
+    def __get_moving_average(self):
+        try:
+            print(" am at __get_bollinger_bands")
+            filter=self.params.get('filter')
+
+            if(filter == "something"):
+
+                alertsAnalysisColl = os.getenv("ALERTS_ANALYSIS_COLLECTION")
+                currentDate = date.today().strftime('%Y-%m-%d')
+
+                movingAverageListCursor = self.db[alertsAnalysisColl].find(
+                                {'moving_average':{ '$elemMatch': { "sma":{"$in":['buy', 'sell']}, "ema":{"$in":['buy', 'sell']}} }}
+                                ,{"_id":0, "moving_average":1, "name":1, "ticker":1}).limit(50)
+
+                movingAverageListStr = dumps(list(movingAverageListCursor))
+                movingAverageList = json.loads(movingAverageListStr)
+                last_updated = datetime.now().strftime("%d-%m-%Y %H:%M")
+
+
+                return {
+                    "status":200,
+                    "results":movingAverageList,
+                    "last_updated":last_updated
+                }
+
+            elif(filter == "all"):
+
+                alertsAnalysisColl = os.getenv("ALERTS_ANALYSIS_COLLECTION")
+                # fromDate = date.today().strftime('%Y-%m-%d')
+                fromDate = datetime.now() - timedelta(3)
+
+
+
+                movingAverageListCursor = self.db[alertsAnalysisColl].find( { "$or":[
+                                                        { "moving_average.sma":{"$in":['sell', 'buy']}, "moving_average.sma_date":{ "$gt": fromDate.strftime('%Y-%m-%d %H:%M:%S')} },
+                                                        { "moving_average.ema":{"$in":['sell', 'buy']}, "moving_average.ema_date":{ "$gte": fromDate.strftime('%Y-%m-%d %H:%M:%S')}  }
+                                                 ] }
+                                                ,{"_id":0, "moving_average":1, "name":1, "ticker":1}).limit(50)
+
+      
+        
+                movingAverageList = list(movingAverageListCursor)
+                last_updated = datetime.now().strftime("%d-%m-%Y %H:%M")
+     
+
+                return {
+                    "status":200,
+                    "results":movingAverageList,
                     "last_updated":last_updated
                 }
 
