@@ -385,7 +385,7 @@ class StrategyRequest:
         try:
             filter=self.params.get('filter')
 
-            if(filter == "top50"):
+            if(filter == "top30"):
                 
                 collection = os.getenv("PATTERNS_ANALYSIS_COLLECTION")
                 
