@@ -31,7 +31,7 @@ const queryClient = new QueryClient()
 
 function App() {
 
-  const [selectedPage, setSelectedPage] = useState(menuElements[2])
+  const [selectedPage, setSelectedPage] = useState(menuElements[0])
   const [stock, setStock] = useState({
     name:"",
     ticker:"AAPL"

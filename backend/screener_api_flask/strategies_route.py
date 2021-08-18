@@ -109,7 +109,7 @@ class StrategyRequest:
         try:
             filter=self.params.get('filter')
 
-            if(filter == "top50"):
+            if(filter == "top50" or filter=='def'):
 
                 collection = os.getenv("LSTM_FORECASTING_COLLECTION")
 
@@ -157,7 +157,7 @@ class StrategyRequest:
         try:
             filter=self.params.get('filter')
 
-            if(filter == "top30"):
+            if(filter == "top30" or filter == "def"):
                                 
                 collection = os.getenv("SOCIAL_TREND_COLLECTION")
                 recentTrend = today.strftime("%Y-%m-%d")
@@ -207,7 +207,7 @@ class StrategyRequest:
         try:
             filter=self.params.get('filter')
 
-            if(filter == "top30"):
+            if(filter == "top30" or filter == "def"):
                 
                 apiKey = os.getenv("FMG_KEY")
                 url = os.getenv("FMG_URL")
@@ -265,7 +265,7 @@ class StrategyRequest:
         try:
             filter=self.params.get('filter')
 
-            if(filter == "top30"):
+            if(filter == "top30" or filter == 'def'):
                 
                 apiKey = os.getenv("FMG_KEY")
                 url = os.getenv("FMG_URL")
@@ -327,7 +327,7 @@ class StrategyRequest:
         try:
             filter=self.params.get('filter')
 
-            if(filter == "top30"):
+            if(filter == "top30" or filter == "def"):
                 apiKey = os.getenv("FMG_KEY")
                 url = os.getenv("FMG_URL")
 
@@ -385,7 +385,7 @@ class StrategyRequest:
         try:
             filter=self.params.get('filter')
 
-            if(filter == "top50"):
+            if(filter == "top50" or filter == "def"):
                 
                 collection = os.getenv("PATTERNS_ANALYSIS_COLLECTION")
                 
