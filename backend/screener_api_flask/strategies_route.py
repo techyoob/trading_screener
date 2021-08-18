@@ -5,7 +5,7 @@ import talib
 import pandas as pd
 from pymongo import MongoClient
 from io import StringIO
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 import time
 import requests
 import json
@@ -160,11 +160,14 @@ class StrategyRequest:
             if(filter == "top30" or filter == "def"):
                                 
                 collection = os.getenv("SOCIAL_TREND_COLLECTION")
-                recentTrend = today.strftime("%Y-%m-%d")
+                # recentTrend = today.strftime("%Y-%m-%d")
 
+                recentTrend = date.today() - timedelta(4)
+                recentTrend = recentTrend.strftime('%Y-%m-%d')
+                print("am here %s" %recentTrend)
                 # recentTrend=datetime(2021, 4, 16).strftime("%Y-%m-%d")
 
-                social_trend_cursor = self.db[collection].find({'date':recentTrend}).limit(50)            
+                social_trend_cursor = self.db[collection].find({'date':{'$gte': recentTrend}}).limit(50)            
 
                 social_trend_str = dumps(list(social_trend_cursor))
                 social_trend_list = json.loads(social_trend_str)
