@@ -3,7 +3,15 @@
 
 import React, { useState, useEffect } from 'react';
 import './menu.css';
-import { FaSearch, FaCaretDown, FaCaretUp } from 'react-icons/fa';
+import { 
+  FaSearch, 
+  FaSignOutAlt,
+  FaHome,
+  FaFireAlt,
+  FaChartArea,
+  FaAtom
+} from 'react-icons/fa';
+
 
 
 
@@ -11,84 +19,74 @@ import { FaSearch, FaCaretDown, FaCaretUp } from 'react-icons/fa';
 
 const Menu = (props) => {
 
+  const [hover, setHover]=useState(false);
 
-    return (
-      <React.Fragment>
-        <div className="menu-header">
-          BIG BANG SCREENER
-        </div>
-        {props.items.map((item, index)=>{
-          return (
-            <div className="menu-item-div"  key={index}>
-              {MenuItemLoader({
-                item, 
-                onSelectPage:props.onSelectPage,
-                onSearchStockSymbol:props.onSearchStockSymbol})}
-            </div> 
-          );
-                     
-        })}
-      </React.Fragment>
-    );
-  }
+  const onSelectPage = (page) => {
+    props.onSelectPage(page)
+    }
 
+    const onLogout = () => {
+      console.log(" logging out... ");
+    }
+
+
+
+return (
+  <React.Fragment>
+    <div className="app-name-logo-container" >
+      <span> {process.env.REACT_APP_NAME} </span>
+    </div>
+    <div className="menu-items-container" >
+      {props.items.map((item, index)=>{
+        return (
+          <div 
+            className={`menu-item-container${props?.selectedItem === item ? '-selected' : ''}`}
+            key={index}
+            onClick={()=>onSelectPage(item)}
+            onMouseEnter={()=>setHover(true)} 
+            onMouseLeave={()=>setHover(false)}>
+              <span>{menuIcons[item]}</span>
+              {item}
+          </div> 
+        );
+                  
+      })}
+    </div>
+    <div className="logout-button"
+          onClick={onLogout}>
+      <span>{menuIcons['logout']}</span>
+      Logout
+    </div>
+
+  </React.Fragment>
+);
+}
 
 export default Menu;
 
 
 
-  
-  const MenuItemLoader = (props) => {
-  
-    const [searchKeywork, setSearchKeyword] = useState("");
-  
-    const updateSearchKeyWord = (e) => {
-      setSearchKeyword(e.target.value)
-    }
-  
-    const onSearch = () => {
-        props.onSearchStockSymbol(searchKeywork)
-        // props.onSelectPage('screener')
-  
-        setSearchKeyword("")
-    }
-  
-  
-    const onSelectPage = (page) => {
-      props.onSelectPage(page)
-    }
-  
-    switch(props.item){
-      case "search":
-        return(
-          <div className="search-menu-item-div" >
-            <input 
-              className="search-input"
-              type = "text"
-              placeholder="Enter Share Symbol"
-              onChange = {updateSearchKeyWord}
-              value={searchKeywork}/>
-            <button
-              disabled={searchKeywork.length === 0 ? true : false}
-              className="search-button"
-              onClick={onSearch}>
-                <FaSearch className="search-icon"/>
-              </button>
-                
-          </div>
-        );
-      default:
-        return(
-          <div 
-            className="default-menu-item-div" 
-            onClick={()=>onSelectPage(props.item)}>
-            {props.item}
-          </div>
-        );
-    }
-  
-  }
-  
-  
-  
-  
+
+
+
+
+
+
+// Object literals for icons 
+const menuIcons={
+  "home":<FaHome />,
+  "alerts":<FaFireAlt/>,
+  "stock watch":<FaChartArea/>,
+  "big bang":<FaAtom/>,
+  "logout":<FaSignOutAlt/>
+}
+
+
+
+
+const styles = {
+    menuItem:({op1, op2})=> ({
+      backgroundColor: op1? "#ad9ac7": "inherit",
+      color: op1?'#ffffff':'inherit'
+    }),
+}

@@ -3,20 +3,21 @@
 
 import React, { useState, useEffect, Component } from 'react';
 import './bigbang.css';
-import { 
-    FaSearch,
-    FaCaretDown,
-    FaCaretUp,
-    FaAngleLeft,
-    FaAngleRight,
-    FaSyncAlt
-} from 'react-icons/fa';
 
+
+import {
+    useQuery,
+    useQueryClient,
+    useMutation,
+    QueryClient,
+    QueryClientProvider,
+  } from 'react-query'
+  
+import Footer from '../../components/listFooter' 
+  
 
 import Spinner from "react-svg-spinner";
 
-import MiniLineChart from '../../components/miniatureLineChart'
-import CandlestickChart from '../../components/candlestickChart'
 
 
 
@@ -24,128 +25,78 @@ import CandlestickChart from '../../components/candlestickChart'
 const BigBangPage = (props) => {
 
 
-
-
     const [lastUpdated, setLastUpdated] = useState("")
     const [tableData, setTableData] = useState([]);    
-    const [tableHeader, setTablHeader] = useState(["Ticker","current", "forecasting"]);
-    const [isLoading, setIsLoading] = useState(false)
+    const [tableHeader, setTablHeader] = useState(["Ticker","Current", "Forecasting"]);
 
-
-
-    useEffect(() => {
-
-        let isMounted = true;
-
-        requestData(isMounted)
-        return function cleanup() {
-            isMounted=false;
-        }
-    }, []);
-  
-  
-  
-    const requestData = (isMounted) => {
-
-        
-
-      setIsLoading(true)
-      fetch(
-        `${process.env.REACT_APP_URL}screener?query=big_bang&filter=top50`,
+    const queryKey = 'picks'
+    const queryClient = useQueryClient();
+    
+    const { status, data, error, isFetching, refetch, dataUpdatedAt } = useQuery(
+      queryKey,
+        () => fetch(`${process.env.REACT_APP_URL}screener?query=big_bang&filter=top50`).then(res =>
+          res.json()
+        ),
         {
-          method: "GET",
-          headers: { 'Content-Type': 'application/json' }
+          initialData:[]
         }
-      )
-      .then(res => res.json())
-      .then(response => {
-        
-        if(isMounted){
-          if(response.status===200){
-              
-            setTableData(response.results)
-            setLastUpdated(response.last_update)
-            setIsLoading(false)
-          } else {
-              throw "error"
-          }
-        }
+     
+    )
   
-  
-        
-      })
-      .catch(error => {
-          
-          console.log("am here at SocialTrend error ", error)
-          if(isMounted){
-            setTableData([])
-            setTablHeader([])
-            setIsLoading(false)
-          }
-          
-        });
+    const refreshData = () => {
+      refetch()
+      
     }
 
-    return (
-      <div className="big-bang-page-div">
-            <div className="section-I-div">
-                <div className="main-info-div"> 
-                    <HeaderClock {...props}/>
-                </div>
-            </div>
-            <div className="section-II-div">
-                <div className="big-bang-list-div">
-                    <div className="big-bang-list-title-div">
-                        BIG BANG SCREENER
-                    </div>
-                    {isLoading 
-                        ? <div className="spinner-container">
-                            <p>Please Wait ...</p>
-                            <Spinner size="20px" color="white" />
-                        </div>
-                        :   <div className="big-bang-list-body-div">
-                        <table id='tickers-list'>
-                            <thead>
-                                <tr>
-                                    {tableHeader.map((item, i)=>{
-                                        return <th key={i}>{item}</th>
-                                    })}
-                                </tr>                            
-                            </thead>
-                            <tbody>
-                                {tableData.map((item, j) => {
 
-                                    return (
-                                        <tr key={j}>
-                                            <td>{item.ticker}</td>
-                                            <td>
-                                                <CurrentQuoteUI current={item.current}/>
-                                            </td>
-                                            <td>
-                                                <ForecastingUI forecasting={item.forecasting} 
-                                                        movement={item.movement}/>
-                                            </td>
-                                        </tr>
-                                    )
+    return (
+        <div className="screener-picks-container">
+            <div className="screener-picks-title">
+                Screener Picks
+            </div>
+            {isFetching 
+            ? <div className="spinner-container">
+                <p>Please Wait ...</p>
+                <Spinner size="20px" color="white" />
+            </div>
+            : <div className="big-bang-list-body-div">
+                    <table id='tickers-list'>
+                        <thead>
+                            <tr>
+                                {tableHeader.map((item, i)=>{
+                                    return <th key={i}>{item}</th>
                                 })}
-                            </tbody>
-                        </table>
-                    </div>
-                    }
-                    <div className="big-bang-list-footer-div">
-                        {isLoading ? <Spinner size="20px" color="white"/> : `Last Updated: ${lastUpdated}`}
-                        <FaSyncAlt 
-                            onClick={requestData}
-                            className="refresh-icon-button"/>
-                    </div>
-                </div>
-            </div> 
-      </div>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {data.results?.map((item, j) => {
+
+                                return (
+                                    <tr
+                                        onClick={()=>props.onSearchStockSymbol(item.ticker)}
+                                        key={j}>
+                                        <td>{item.ticker}</td>
+                                        <td>
+                                            <CurrentQuoteUI current={item.current}/>
+                                        </td>
+                                        <td>
+                                            <ForecastingUI forecasting={item.forecasting} 
+                                                    movement={item.movement}/>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                </div>}
+            <div className="big-bang-list-footer-div">
+                <Footer
+                    refreshData={refreshData}
+                    lastUpdated={new Date(dataUpdatedAt).toLocaleString("en-US")}/>
+            </div>
+        </div>
     );
   }
-
-
-
 
 export default BigBangPage;
 
@@ -226,48 +177,6 @@ const ForecastingUI = (props) => {
         </div>
     )
 }
-
-
-
-
-const HeaderClock = (props) => {
-
-
-
-    const [clockData, setClockData ] = useState({
-      day:new Date().toLocaleDateString("en-US", {weekday: 'short', month:"short", day:"2-digit"}),
-      time:new Date().toLocaleTimeString("en-US", {hour:"2-digit", minute:"2-digit"})
-    })
-  
-    useEffect(() => {
-  
-        const onSetClock = () => {
-            
-          const day  = new Date().toLocaleDateString("en-US", {weekday: 'short', month:"short", day:"2-digit"});
-          const time = new Date().toLocaleTimeString("en-US", {hour:"2-digit", minute:"2-digit"});
-          setClockData({day, time})
-        }
-    
-      var dateUpdateTimer = setInterval(()=>{
-          onSetClock();
-        }, 60000 )
-      
-  
-      return function cleanup() {
-          clearInterval(dateUpdateTimer)
-      }
-    }, []);
-  
-  
-  
-    return (
-      <div className="header-clock-div">
-        <span className="date-div"> {clockData.day} </span>
-        <span className="time-div"> {clockData.time} </span>
-      </div>
-    )
-  }
-  
 
 
 

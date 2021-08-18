@@ -1,0 +1,49 @@
+
+
+/*******************************************
+*
+*
+*             alerts components
+*
+* 
+********************************************/
+
+.type-I-alert-container {
+    display: flex;
+    text-transform: capitalize;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.type-I-alert-title-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 3;
+    font-weight: bold;
+}
+ 
+.type-I-alert-price-div {
+    flex: 3;
+    padding-left: 25px;
+
+}
+
+.type-I-alert-date-div {
+    flex: 3;
+    padding-left: 25px;
+}
+
+
+
+
+.bollinger-band-alert-div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background-color: #254661;
+    border-radius: 15px;
+}
+

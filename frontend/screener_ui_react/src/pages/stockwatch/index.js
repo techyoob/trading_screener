@@ -4,6 +4,7 @@
 import React, { useState, useEffect, Component } from 'react';
 import './stockwatch.css';
 import '../pages.css';
+import Carousel from "react-elastic-carousel";
 
 
 import { 
@@ -14,50 +15,108 @@ import {
     FaAngleRight
 } from 'react-icons/fa';
 
-
 import Spinner from "react-svg-spinner";
 
+import ChartComponent from '../../components/candlestickChart'
 import MiniLineChart from '../../components/miniatureLineChart';
-import CandlestickChart from '../../components/candlestickChart';
+// import CandlestickChart from '../../components/candlestickChart';
 
-import { 
-    TypeOneAlert,
-    BollingerBandSqueezeAlert
-} from '../../components/alerts'
+// import { 
+//     TypeOneAlert,
+//     BollingerBandsAlert,
+//     MovingAverageAlert
+// } from '../../components/alerts'
 
-
-
-
-
-
-
+import {
+    useQuery,
+    useQueryClient,
+    useMutation,
+    QueryClient,
+    QueryClientProvider,
+  } from 'react-query'
+  
+import LoadingSpinner from '../../components/loadingAnimation'
+import AlertItem from '../../components/alerts'
 
 
 const StockWatchPage = (props) => {
   
+    const StockOverviewFetch = withFetchQuery(StockOverview, 'overview')
+    const StockChartFetch = withFetchQuery(StockChart, 'chart')
+    const StockAlertsFetch = withFetchQuery(StockAlerts, 'alerts')
+    
+
     return (
-      <div className="main-page-div">
-        <div className="main-page-section-I-div">
-            <div className="main-page-header-div"> 
-                <StockOverview {...props}/>
+        <div className="stock-watch-page-container">
+            <div className="stock-watch-section-I">
+                <StockOverviewFetch {...props}/>
+            </div>
+            <div className="stock-watch-section-II">
+                <div className="stock-alerts-container">
+                    <StockAlertsFetch {...props}/>
+                </div>
+                <div className="stock-chart-container">
+                    <StockChartFetch {...props}/>
+                </div>
             </div>
         </div>
-        <div className="main-page-section-II-div">
-            <div className="stock-chart-details-div">
-                <StockChart {...props}/>
-            </div>
-            <div className="stock-alerts-div">
-                <StockAlerts {...props}/>
-            </div>
-        </div>
-      </div>
     );
 }
 
-
-
-
 export default StockWatchPage;
+
+
+const withFetchQuery = (WrappedComponent, componentName) => {
+
+    function HOC(props) {
+        const ticker = props.stock.ticker!=undefined? props.stock.ticker : "";
+        const baseUrl = process.env.REACT_APP_URL;
+
+        const [apiFilter, setApiFilter]=useState('def')
+        const [apiURL, setApiURL] = useState(
+                                  `${baseUrl}stock?ticker=${ticker}&query=${componentName}&filter=def`
+                                )
+                                
+        const queryClient = useQueryClient();
+  
+        const { status, data, error, isFetching, refetch, dataUpdatedAt } = useQuery(
+            componentName,
+            () => fetch(apiURL).then(res =>
+                res.json()
+            ),
+            {
+                refetchInterval:300000,
+            }
+        )
+  
+        const refreshData = () => {
+            refetch()
+        }
+        const setApiURLStr = (filter) => {
+            setApiFilter(filter)
+            
+            refetch()
+        }
+        
+
+        if(typeof data === 'undefined' || data === null || data.length === 0){            
+            return (
+                <LoadingSpinner />
+            );
+        }
+  
+        return (
+            <React.Fragment>  
+                <WrappedComponent data={data?.results} {...props} setApiFilter={setApiURLStr}/>
+            </React.Fragment>
+        );
+    }
+  
+    
+    return HOC;
+  }
+  
+  
 
 
 
@@ -65,92 +124,38 @@ export default StockWatchPage;
 const StockOverview = (props) => {
 
 
-    const [isLoading, setIsLoading] = useState(false)
-    const [data, setData] = useState({})
-
-
-    useEffect(() => {
-
-        let isMounted = true;
-
-        requestData(isMounted, props.stock.ticker)
-        return function cleanup() {
-            isMounted = false;
-        }
-    }, [props.stock.ticker]);
-
-    const requestData = (isMounted, ticker) => {
-
-        setIsLoading(true)
-        fetch(
-        `${process.env.REACT_APP_URL}ticker_info?ticker=${ticker!=undefined? ticker : ""}`,
-        {
-            method: "GET",
-            headers: { 'Content-Type': 'application/json' }
-        })
-        .then(res => res.json())
-        .then(response => {
-
-            if(isMounted){
-                if(response.status===200){
-                    
-                    setData(response.results)
-                    setIsLoading(false)
-                } else {
-                    throw "error"
-                }
-            }
-        
- 
-        })
-        .catch(error => {
-            if(isMounted){
-                setData({})
-                setIsLoading(false)
-              }
-        });
-    }
-
-
-
     return(
-        <div className="stock-overview-div">
-            <div className="stock-overview-title-div">
-                Overview
+        <div className="stock-overview">
+            <div className="stock-overview-header">
+                <div className="stock-ticker">
+                    {props?.stock?.ticker}
+                </div>
+                <div className="stock-company">
+                    {props?.data.length > 0 ? props?.data[1]['name'] : ''}
+                </div>
             </div>
-            {isLoading?
-            <div className="loading-spinner"> <Spinner  size="20px" color="white" /></div> 
-            : <div className="stock-overview-details-div">
-                <div className="stock-overview-element-div">
-                    <span className="overview-ticker"> {data['ticker']} </span>
-                    <span className="overview-name"> {data['name']} </span>
-                </div>
-                <div className="stock-overview-element-div">
-                    <span className="overview-ticker-price">
-                        <span style={{fontSize:"18px", fontWeight:"bold"}}>{`$${data['price']}`} </span>
-                        <span >{`$${data['change']} (${data['change percentage']}%)`} </span>
-                    </span>
-                </div>
-                <div className="stock-overview-element-div">
-                    <span className="overview-item-key">Open</span>
-                    <span className="overview-item-value">{`$${data['open']}`}</span>
-                </div>
-                <div className="stock-overview-element-div">
-                    <span className="overview-item-key">Volume</span>
-                    <span className="overview-item-value">{`$${shortBigNumber( data['volume'])}`}</span>
-                </div>
-                <div className="stock-overview-element-div">
-                    <span className="overview-item-key">Market Cap</span>
-                    <span className="overview-item-value">{`$${shortBigNumber( data['market cap'])}`}</span>
-                </div>
-                <div className="stock-overview-element-div">
-                    <span className="overview-item-key">Day Range</span>
-                    <span className="overview-item-value">{`${data['day range']}`}</span>
-                </div>
-            </div>}
+            <div className="stock-overview-details">
+                {props?.data.map((item, i)=>{
+
+                    const itemKey = Object.keys(item).length > 0 ? Object.keys(item)[0] : "";
+                    const itemValue = item[itemKey]
+
+                    if(i===0 || i===1)
+                        return
+
+                    return (
+                        <div 
+                            className="stock-overview-element"
+                            key={i}>                    
+                            <span className="overview-item-key"> {itemKey} </span>
+                            <span className="overview-item-value"> {itemValue} </span>  
+                        </div>
+                    )
+                    
+                })}
+            </div>
         </div>);
 }
-
 
 
 
@@ -158,194 +163,69 @@ const StockOverview = (props) => {
 const StockChart = (props) => {
 
 
-   const candleSize = ["1D", "5D"]
-   const [selectedCandleSize, setSelectedCandleSize] = useState("1D");
-   const [candlesData, setCandlesData] = useState([])
-   const [isLoading, setIsLoading] = useState(false)
+    const candleSize = ["def","1D", "5D"]
+    const [selectedCandleSize, setSelectedCandleSize] = useState(candleSize[0]);
 
-   const onSelectCandleSize = (size) => {
+
+    const onSelectCandleSize = (size) => {
         setSelectedCandleSize(size)
-   }
-
-   
-   useEffect(() => {
-                
-        let isMounted = true;
-        
-        requestData(isMounted,  props.stock.ticker)
-        return function cleanup() {
-            isMounted = false;
-        }
-    }, [selectedCandleSize]);
-
-
-    useEffect(() => {
-            
-        let isMounted = true;
-        
-        requestData(isMounted, props.stock.ticker)
-        return function cleanup() {
-            isMounted = false;
-        }
-    }, [props.stock.ticker]);
-
-    const requestData = (isMounted, ticker) => {
-
-        setIsLoading(true)
-        fetch(
-        `${process.env.REACT_APP_URL}ticker_history?ticker=${ticker}&p=${selectedCandleSize}`,
-        {
-        method: "GET",
-        headers: { 'Content-Type': 'application/json' }
-        })
-        .then(res => res.json())
-        .then(response => {
-
-            if(isMounted){
-                if(response.status===200){
-
-                    setCandlesData(response.results)
-                    setIsLoading(false)
-                } else {
-                    throw "error"
-                }
-            }
-
-        })
-        .catch(error => {
-            console.log("am here at error ", error)
-            if(isMounted){
-                setCandlesData([])
-                setIsLoading(false)
-              }
-        });
     }
 
-
-
-
-
-    return(
-    <>
-        <div className="stock-chart-header-div" >
-            {candleSize.map((item, index)=>{
-
-                return (
-                    <button 
-                        className={`${selectedCandleSize===item? "selected-" : ""}candle-size-div`}
-                        key={index}
-                        disabled={selectedCandleSize===item? true : false }
-                        onClick={()=> onSelectCandleSize(item)}>
-                        {item}
-                    </button>)
-
-            })}
-        </div>
-        <div className="stock-chart-body-div" >
-            <CandlestickChart data={candlesData}/> 
-        </div>
-        <div className="stock-chart-overview-div">
-
-        </div>
-    </>);
-}
-
-
-
+ 
+     return(
+         <div className="candlestick-chart">
+             <div className="candlestick-chart-header" >
+                 {candleSize.map((item, index)=>{
+ 
+                     return (item==='def' ? null : 
+                        <button 
+                            className={`${selectedCandleSize===item? "selected-" : ""}candle-size-div`}
+                            key={index}
+                            disabled={selectedCandleSize===item? true : false }
+                            onClick={()=> onSelectCandleSize(item)}>
+                            {item}
+                        </button>)
+ 
+                 })}
+             </div>
+             <div className="candlestick-chart-body">
+                 <ChartComponent data={props.data}/>
+             </div>
+         </div>
+     );
+ }
+ 
+ 
+ 
 const StockAlerts = (props) => {
 
-    const [alerts, setAlerts] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
 
-    useEffect(() => {
-            
-        let isMounted = true;
-        
-        requestData(isMounted, props.stock.ticker)
-        return function cleanup() {
-            isMounted = false;
-        }
-    }, [props.stock.ticker]);
-
-
-
-    const requestData = (isMounted, ticker) => {
-
-        setIsLoading(true)
-        fetch(
-        `${process.env.REACT_APP_URL}stock?ticker=${ticker}&query=alerts&filter=all`,
-        {
-        method: "GET",
-        headers: { 'Content-Type': 'application/json' }
-        })
-        .then(res => res.json())
-        .then(response => {
-
-            if(isMounted){
-                if(response.status===200){
-                   
-                    setAlerts(response.results)
-                    setIsLoading(false)
-                } else {
-                    throw "error"
-                }
-            }
-
-        })
-        .catch(error => {
-            console.log("am here at error ", error)
-            if(isMounted){
-                setAlerts([])
-                setIsLoading(false)
-              }
-        });
-    }
-
-
+    const breakPoints = [
+        { width: 1, itemsToShow: 1 },
+        { width: 550, itemsToShow: 3, itemsToScroll: 1 },
+        { width: 768, itemsToShow: 4 },
+        { width: 1200, itemsToShow: 4 }
+      ];
 
 
     return (
-        <>
-            <div className="stock-alerts-title-div">
+        <div className="stock-alerts">
+            <div className="stock-alerts-title">
                 Alerts
             </div>
-            <div className="stock-alerts-body-div">
-            {alerts.map((item, i)=>{
-                return (
-                    <div className="stock-alert-item-div" key={i}>
-                        {alertLoader(item)[item.name]}
-                    </div>) 
-                
-            })}
+            <div className="stock-alerts-carousel">
+                <Carousel 
+                    breakPoints={breakPoints}
+                    itemPadding={[0, 20]}
+                    pagination={false}>
+                    {props?.data?.map((item, i) => (
+                        <div className="stock-alert-item" key={i}>
+                            <AlertItem name={item.name} item={item.item} />
+                        </div>
+                    ))}
+                </Carousel>
             </div>
-        </>
+        </div>
     );
 }
 
-
-
-const alertLoader = (props) => ({
-    'new high':<TypeOneAlert {...props}/>,
-    'new low':<TypeOneAlert {...props}/>,
-    'bb squeeze':<BollingerBandSqueezeAlert {...props}/>
-})
-
-
-
-
-const  shortBigNumber = (bigNumber) => {
-    
-    const numberLength = Math.floor(bigNumber).toString().length
-    
-    return numberLength > 12 
-    ? (Math.round( bigNumber/Math.pow(10,10) ) / 100).toFixed(2)+"T" 
-    : numberLength > 9 
-          ? (Math.round( bigNumber/Math.pow(10,7) ) / 100).toFixed(2)+"B" 
-          : numberLength > 6 
-              ? (Math.round( bigNumber/Math.pow(10,4) ) / 100).toFixed(2)+"M"
-              : numberLength > 3
-                  ? (Math.round( bigNumber/Math.pow(10,1) ) / 100).toFixed(2)+"K"
-                  : bigNumber
-  
-  }
-  

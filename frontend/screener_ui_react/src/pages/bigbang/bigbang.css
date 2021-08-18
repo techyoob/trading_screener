@@ -2,13 +2,64 @@
 
 
 
-
-.big-bang-page-div {
+.screener-picks-container {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     height: 100%;
     width: 100%;
-    background-color:#1e1e1e;
+    border-radius: 10px;
+    background-color: #505764;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
+  
+.screener-picks-title {
+    display: flex;
+    height: 8%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 25px;
+    margin-top: 20px;
+    color: #a7a7a7;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+.big-bang-page-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background-color: darkgoldenrod;
   }
 
 
@@ -21,25 +72,15 @@
     display: flex;
     flex-direction: column;
     height: 94%;
-    width: 95%;
+    width: 98%;
     background-color: #303540;
-    border-radius: 15px;
+    border-radius: 10px;
     overflow: hidden;
     text-transform: capitalize;
   }
 
 
-  
-.big-bang-list-title-div {
-    display: flex;
-    height: 8%;
-    width: 100%;
-    align-items: center;
-    justify-content: flex-start;
-    padding-left: 15px;
-    font-weight: bold;
-    margin-bottom: 15px;
-  }
+
 
 .big-bang-list-body-div {
     width: 100%;
@@ -79,10 +120,12 @@ table {
     border-collapse: collapse;
     table-layout: auto;
 }
-
+tbody {
+    overflow: hidden;
+}
 
 tbody tr:hover {
-    background-color: rgb(66, 66, 66);
+    background-color: #abddc4;
 }
 
 th {
@@ -90,13 +133,14 @@ th {
     position: sticky;
     top: 0;
     text-align: left;
-    background-color: #303540;
     padding-left: 20px;
     font-size: 14px;
     font-weight: 600;
-    color: rgb(206, 206, 206);
+    color: #cecece;
+    background-color: #505764;
 }
-
+tr {
+}
   
 td {
     height: 80px;
@@ -173,7 +217,7 @@ td:nth-child(3), th:nth-child(3) {
     width: 100%;
     border-radius: 10px;
     overflow: hidden;
-    background-color: rgb(69, 77, 80);
+    background-color: #6d768b;
 }
 
 .current-item-box-I {

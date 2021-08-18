@@ -1,0 +1,15 @@
+
+
+
+
+text:{
+    highlighted text for : price, box title, => #ffffff
+    downlighted text for list item names, dates, table headers => #a7a7a7
+    logout button background,  => #3b3e4e
+    logout button background on hover,  => #4e8585
+    logout button background on action,  => #c97777
+    selected menu item background,  => #423942, shadow:=> 0px 0px 5px 4px #834d83;
+    selected menu item forground, => #ffffff
+    main frame background, => #2a2c38
+    boxes backgroun, => #505764
+}

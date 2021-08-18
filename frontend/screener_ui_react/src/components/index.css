@@ -15,56 +15,6 @@
 .candlestick-chart-div{
     height: 100%;
     width: 100%;
-    border: 1px solid #dadada;
-    margin-top: 15px;
-    margin-left: 15px;
-    background-color: #dfdfdf;
-}
-
-
-/*******************************************
-*
-*
-*             alerts components
-*
-* 
-********************************************/
-
-.type-I-alert-div {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-    background-color: #254661;
-    border-radius: 15px;
-}
-
-.type-I-alert-title-div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 3;
-    font-weight: bold;
-}
- 
-.type-I-alert-price-div {
-    flex: 3;
-    padding-left: 10px;
-
-}
-
-.type-I-alert-date-div {
-    flex: 3;
-    padding-left: 10px;
-}
-
-
-
-
-.bollinger-band-alert-div {
-    height: 100%;
-    width: 100%;
-    background-color: #8087f0;
 }
 
 

@@ -3,25 +3,35 @@
 // main comp
 
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import { FaSearch, FaCaretDown, FaCaretUp } from 'react-icons/fa';
-
-import { useInterval } from './hooks/useInterval'
 
 
-import HomePage from './pages/home';
-import StockWatchPage from './pages/stockwatch';
-import BigBangPage from './pages/bigbang';
-import AlertsPage from './pages/alerts';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query'
+
+
+
+import PageWapper from './pages'
 import Menu from './menu/menu';
-import TestPage from './pages/tests';
+import ToolBar from './menu/toolBar';
 
-const menuElements = ["home", "alerts", "stock watch",  "big bang", "search"]
+const menuElements = ["home", "alerts", "stock watch",  "big bang"]
+
+
+
+const queryClient = new QueryClient()
+
+
+
+
+
 
 function App() {
 
-  const [selectedPage, setSelectedPage] = useState(menuElements[0])
+  const [selectedPage, setSelectedPage] = useState(menuElements[2])
   const [stock, setStock] = useState({
     name:"",
     ticker:"AAPL"
@@ -29,6 +39,7 @@ function App() {
   
 
   const onSelectPage = (selected) => {
+    
     setSelectedPage(selected)
   }
 
@@ -38,81 +49,31 @@ function App() {
   }
 
   return (
-    <div className="shares-screener-app-div">
-      <div className="menu-div">
-        <Menu
-          items={menuElements}
-          onSelectPage={onSelectPage}
-          onSearchStockSymbol={onSearchStockSymbol}/>
+    <QueryClientProvider client={queryClient}>
+      <div className="shares-screener-main-container">
+        <div className="dashboard-menu-container">
+          <Menu
+              items={menuElements}
+              selectedItem={selectedPage}
+              onSelectPage={onSelectPage}
+              onSearchStockSymbol={onSearchStockSymbol}/>
+        </div>
+        <div className="dashboard-body-container">
+          <div className="dashboard-header-container">
+            <ToolBar
+              onSearchStockSymbol={onSearchStockSymbol}/>
+          </div>
+          <div className="dashboard-pages-container">
+            <PageWapper
+              selected={selectedPage}
+              stock={stock}
+              onSearchStockSymbol={onSearchStockSymbol}/>
+          </div>
+        </div>
       </div>
-      <div className="pages-container-div">
-        <Pages 
-          selected={selectedPage}
-          stock={stock}
-          onSearchStockSymbol={onSearchStockSymbol}/>
-      </div>
-    </div>
+    </QueryClientProvider>
   );
 }
+
 
 export default App;
-
-
-
-
-
-
-
-const Pages = (props) => {
-  
-
-
-  return (
-    <div className="pages-div">
-      {PagesPicker({
-        selected:props.selected,
-        ...props})}
-    </div>
-  );
-}
-
-// dsdsd
-const PagesPicker = (props) => {
-  
-
-  switch(props.selected){
-    case "alerts":
-      return (
-        <React.Fragment >
-          <AlertsPage {...props}/>
-        </React.Fragment>
-      );
-    case "stock watch":
-      return (
-        <React.Fragment >
-          <StockWatchPage {...props} />
-        </React.Fragment>
-      );
-    case "test page":
-      return (
-        <React.Fragment >
-          <TestPage {...props} />
-        </React.Fragment>
-      );
-    case "big bang":
-      return (
-        <React.Fragment >
-          <BigBangPage {...props} />
-        </React.Fragment>
-      );
-    case "home":
-    default:
-      return (
-        <React.Fragment >
-          <HomePage {...props}/>
-        </React.Fragment>
-      );
-  }
-
-}
-
