@@ -5,12 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: FastAPI",
+            "name": "Python: Flask",
             "type": "python",
             "request": "launch",
-            "module": "uvicorn",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "screener_api.py",
+                "FLASK_ENV": "development",
+                "FLASK_DEBUG": "1"
+            },
             "args": [
-                "screener_api:app"
+                "run",
+                "--no-debugger",
+                "--host=0.0.0.0"
             ],
             "jinja": true
         }

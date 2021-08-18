@@ -385,7 +385,7 @@ class StrategyRequest:
         try:
             filter=self.params.get('filter')
 
-            if(filter == "top30"):
+            if(filter == "top50"):
                 
                 collection = os.getenv("PATTERNS_ANALYSIS_COLLECTION")
                 
@@ -433,4 +433,5 @@ class StrategyRequest:
             # print('Error processing ticker with ticker ', ticker , "  and reason is ", e)
             print('Error processing ticker with ticker ', e)
             return self.response_404
+
 
